@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import {
   FaTimes,
   FaBars,
@@ -9,12 +9,13 @@ import {
   FaUsers,
   FaDollarSign,
 } from "react-icons/fa";
+
 export default function Dashboard() {
   const [open, setOpen] = useState("-left-[202px]");
 
   const styles = {
     iconsList: "text-3xl",
-    listStyle: `w-full pb-3 text-center flex items-center justify-start gap-3 cursor-pointer ${
+    listStyle: `w-full pb-3 text-center cursor-pointer md:border-b-2 md:border-black md:border-opacity-30 ${
       open == "left-0" && "border-b-2"
     } border-black border-opacity-30`,
   };
@@ -22,7 +23,7 @@ export default function Dashboard() {
   const icons = {
     bars: (
       <FaBars
-        className="text-white absolute top-6 right-3 text-3xl"
+        className="text-white absolute top-6 right-3 text-3xl cursor-pointer md:hidden"
         onClick={() => {
           setOpen("left-0");
         }}
@@ -30,7 +31,7 @@ export default function Dashboard() {
     ),
     close: (
       <FaTimes
-        className="text-white absolute top-6 right-3 text-3xl"
+        className="text-white absolute top-6 right-3 text-3xl cursor-pointer md:hidden"
         onClick={() => {
           setOpen("-left-[202px]");
         }}
@@ -44,11 +45,11 @@ export default function Dashboard() {
   };
 
   const items = [
-    { name: 'Cargos', icon: icons.cargos },
-    { name: 'Salarios', icon: icons.salarios },
-    { name: 'Departamentos', icon: icons.departamentos },
-    { name: 'Empleados', icon: icons.empleados },
-    { name: 'Deducciones', icon: icons.deducciones },
+    { name: "Cargos", icon: icons.cargos },
+    { name: "Salarios", icon: icons.salarios },
+    { name: "Departamentos", icon: icons.departamentos },
+    { name: "Empleados", icon: icons.empleados },
+    { name: "Deducciones", icon: icons.deducciones },
   ];
 
   return (
@@ -57,14 +58,19 @@ export default function Dashboard() {
         <div
           className={
             open +
-            " fixed text-gray-400 w-64 top-0 p-4 bg-LightBlue transition-all duration-500 h-screen"
+            " fixed text-gray-400 w-64 top-0 p-4 bg-LightBlue transition-all duration-500 h-screen md:left-0"
           }
         >
           {open == "-left-[202px]" ? icons.bars : icons.close}
           <img src="../public/logo_transparent.png" alt="" />
           <ul className=" flex flex-col gap-9 items-center font-extrabold text-lg">
             {items.map((item) => (
-              <li className={styles.listStyle}>{item.icon}{item.name}</li>
+              <Link className={styles.listStyle} to={`/sesion/${item.name.toLowerCase()}`} onClick={()=>{setOpen("-left-[202px]")}}>
+                <li className="flex items-center justify-start gap-3">
+                  {item.icon}
+                  {item.name}
+                </li>
+              </Link>
             ))}
           </ul>
         </div>
