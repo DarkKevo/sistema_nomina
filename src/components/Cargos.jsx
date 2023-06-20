@@ -31,7 +31,7 @@ export default function Cargos() {
               NOMBRE
             </th>
             <th className={tableStyle + " bg-DarkBlue bg-opacity-70"}>
-              CODIGO
+              MONTO
             </th>
             <th className={tableStyle + " bg-DarkBlue bg-opacity-70"}>
               ACTION
@@ -41,9 +41,9 @@ export default function Cargos() {
         {cargos && (
           <tbody>
             {cargos.map((cargo) => (
-              <tr key={cargo.idcargos}>
-                <td className={tableStyle}>{cargo.cargo}</td>
-                <td className={tableStyle}>{cargo.codigo_salario}</td>
+              <tr key={cargo.id}>
+                <td className={tableStyle}>{cargo.nombre}</td>
+                <td className={tableStyle}>{cargo.monto}</td>
                 <td className={tableStyle + ' flex gap-5 items-center justify-center text-2xl'}>
                   <button>
                     <FaRegTrashAlt />
