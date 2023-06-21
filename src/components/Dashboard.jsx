@@ -12,7 +12,6 @@ import {
 
 export default function Dashboard() {
   const [open, setOpen] = useState("-left-[202px]");
-
   const styles = {
     iconsList: "text-3xl",
     listStyle: `w-full pb-3 text-center cursor-pointer md:border-b-2 md:border-black md:border-opacity-30 ${
@@ -54,7 +53,7 @@ export default function Dashboard() {
 
   return (
     <div className="font-poppins flex min-h-screen">
-      <div className="w-1/6">
+      <div className="w-1/6 z-10">
         <div
           className={
             open +
@@ -65,7 +64,14 @@ export default function Dashboard() {
           <img src="../public/logo_transparent.png" alt="" />
           <ul className=" flex flex-col gap-9 items-center font-extrabold text-lg">
             {items.map((item) => (
-              <Link className={styles.listStyle} to={`/sesion/${item.name.toLowerCase()}`} onClick={()=>{setOpen("-left-[202px]")}}>
+              <Link
+                key={item.name}
+                className={styles.listStyle}
+                to={`/sesion/${item.name.toLowerCase()}`}
+                onClick={() => {
+                  setOpen("-left-[202px]");
+                }}
+              >
                 <li className="flex items-center justify-start gap-3">
                   {item.icon}
                   {item.name}
