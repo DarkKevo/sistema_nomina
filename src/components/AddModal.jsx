@@ -18,6 +18,7 @@ export default function AddModal({ openModal, setOpenModal }) {
     },
     {
       onSuccess: (data) => {
+        console.log(data)
         data.ok !== true
           ? Swal.fire({
               title: "Datos incorrectos",
