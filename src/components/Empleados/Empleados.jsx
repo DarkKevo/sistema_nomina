@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from "react-icons/fa";
-import AddModal from "./AddModal";
 import { useQuery } from "react-query";
 
 export default function Empleados() {
-  const [openModal, setOpenModal] = useState(false);
 
   const { data } = useQuery("repoData", () =>
       fetch("http://localhost:3000/ListarEmpleados").then((res) => res.json())
@@ -17,12 +15,6 @@ export default function Empleados() {
         <h1 className="flex gap-2 items-center text-sm font-bold">
           <FaUsers className="text-2xl" /> Empleados en la empresa
         </h1>
-        <button
-          onClick={() => setOpenModal(true)}
-          className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
-        >
-          Añadir empleado <FaPlus className="text-xl" />
-        </button>
       </nav>
       <table className="w-1/4 border-collapse border-2">
         <thead>
@@ -101,7 +93,6 @@ export default function Empleados() {
           </tbody>
         )}
       </table>
-      <AddModal openModal={openModal} setOpenModal={setOpenModal} />
     </div>
   );
 }

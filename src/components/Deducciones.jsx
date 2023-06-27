@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { FaRegTrashAlt, FaRegEdit, FaDollarSign, FaPlus } from "react-icons/fa";
-import AddModal from "./AddModal";
 import { useQuery } from "react-query";
 
 export default function Deducciones() {
-  const [openModal, setOpenModal] = useState(false);
 
   const { data } = useQuery("repoData", () =>
       fetch("http://localhost:3000/ListarDeducciones").then((res) => res.json())
@@ -17,12 +15,6 @@ export default function Deducciones() {
         <h1 className="flex gap-2 items-center text-sm font-bold">
           <FaDollarSign className="text-2xl" /> Deducciones en la empresa
         </h1>
-        <button
-          onClick={() => setOpenModal(true)}
-          className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
-        >
-          Añadir deducción <FaPlus className="text-xl" />
-        </button>
       </nav>
       <table className=" border-collapse border-2">
         <thead>
@@ -65,7 +57,6 @@ export default function Deducciones() {
           </tbody>
         )}
       </table>
-      <AddModal openModal={openModal} setOpenModal={setOpenModal} />
     </div>
   );
 }

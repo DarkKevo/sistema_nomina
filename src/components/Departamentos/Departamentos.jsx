@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { FaRegTrashAlt, FaRegEdit, FaUserTie, FaPlus } from "react-icons/fa";
-import AddModal from "./AddModal";
+import { FaRegTrashAlt, FaRegEdit, FaCity, FaPlus } from "react-icons/fa";
 import { useQuery } from "react-query";
+import AddModalDepartamento from "./AddModalDepartamentos";
 
-export default function Cargos() {
-  const [openModal, setOpenModal] = useState(false);
+export default function Departamentos() {
 
   const { data } = useQuery("repoData", () =>
-      fetch("http://localhost:3000/ListarCargo").then((res) => res.json())
+      fetch("http://localhost:3000/ListarDepartamento").then((res) => res.json())
       
     );
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
@@ -15,14 +14,9 @@ export default function Cargos() {
     <div className="w-full py-10 flex flex-col items-center justify-start gap-10">
       <nav className="w-3/4 rounded-md flex justify-between">
         <h1 className="flex gap-2 items-center text-sm font-bold">
-          <FaUserTie className="text-2xl" /> Cargos en la empresa
+          <FaCity className="text-2xl" /> Departamentos de la empresa
         </h1>
-        <button
-          onClick={() => setOpenModal(true)}
-          className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
-        >
-          Añadir cargo <FaPlus className="text-xl" />
-        </button>
+        <AddModalDepartamento/>
       </nav>
       <table className=" border-collapse border-2">
         <thead>
@@ -30,12 +24,12 @@ export default function Cargos() {
             <th
               className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
             >
-              NOMBRE
+              ID
             </th>
             <th
               className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
             >
-              MONTO
+              Departamento
             </th>
             <th
               className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
@@ -46,10 +40,10 @@ export default function Cargos() {
         </thead>
         {data && (
           <tbody>
-            {data.map((cargo) => (
-              <tr key={cargo.id}>
-                <td className={tableStyle}>{cargo.nombre}</td>
-                <td className={tableStyle}>{cargo.monto}</td>
+            {data.map((departamento) => (
+              <tr key={departamento.iddepartamentos}>
+                <td className={tableStyle}>{departamento.iddepartamentos}</td>
+                <td className={tableStyle}>{departamento.departamento}</td>
                 <td className={tableStyle}>
                   <div className="flex items-center justify-center text-2xl gap-3">
                     <button>
@@ -65,7 +59,6 @@ export default function Cargos() {
           </tbody>
         )}
       </table>
-      <AddModal openModal={openModal} setOpenModal={setOpenModal} />
     </div>
   );
 }
