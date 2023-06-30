@@ -1,20 +1,25 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalSalarios() {
+export default function AddModalSalarios({ isEdit, id }) {
   //estados para el fetch
   const [monto, setMonto] = useState("");
   const [openModal, setOpenModal] = useState(false);
 
   const mutation = useMutation(
     (datos) => {
-      const res = fetch("http://localhost:3000/CrearSalario", {
-        method: "POST",
-        body: JSON.stringify(datos),
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-      });
+      const res = fetch(
+        isEdit
+          ? "http://localhost:3000/ActualizarSalario"
+          : "http://localhost:3000/CrearSalario",
+        {
+          method: isEdit ? "PUT" : "POST",
+          body: JSON.stringify(datos),
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+        }
+      );
       return res;
     },
     {
@@ -27,7 +32,7 @@ export default function AddModalSalarios() {
               showConfirmButton: false,
             })
           : Swal.fire({
-              title: "Salario registrado!",
+              title: isEdit ? "Salario Editado" : "Salario registrado!",
               icon: "success",
               timer: 3000,
             });
@@ -41,18 +46,34 @@ export default function AddModalSalarios() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const datos = {
-      monto_salario: monto,
-    };
+    const datos = isEdit
+      ? {
+          idsalario: id,
+          monto_salario: monto,
+        }
+      : {
+          monto_salario: monto,
+        };
+    console.log(datos);
     mutation.mutate(datos);
   };
   return (
     <>
       <button
         onClick={() => setOpenModal(true)}
-        className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
+        className={
+          isEdit
+            ? ""
+            : "flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
+        }
       >
-        Añadir Salario <FaPlus className="text-xl" />
+        {isEdit ? (
+          <FaRegEdit />
+        ) : (
+          <>
+            Añadir Salario <FaPlus className="text-xl" />
+          </>
+        )}
       </button>
       <div
         className={`${

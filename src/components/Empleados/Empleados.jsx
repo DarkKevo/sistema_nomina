@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from "react-icons/fa";
 import { useQuery } from "react-query";
+import AddModalEmpleados from './AddModalEmpleados'
 
 export default function Empleados() {
 
@@ -15,6 +16,7 @@ export default function Empleados() {
         <h1 className="flex gap-2 items-center text-sm font-bold">
           <FaUsers className="text-2xl" /> Empleados en la empresa
         </h1>
+        <AddModalEmpleados/>
       </nav>
       <table className="w-1/4 border-collapse border-2">
         <thead>

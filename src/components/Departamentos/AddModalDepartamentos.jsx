@@ -1,25 +1,30 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalDepartamento() {
+export default function AddModalDepartamento({ isEdit, id }) {
   //estados para el fetch
   const [departamento, setDepartamento] = useState("");
   const [openModal, setOpenModal] = useState(false);
 
   const mutation = useMutation(
     (datos) => {
-      const res = fetch("http://localhost:3000/CrearDepartamento", {
-        method: "POST",
-        body: JSON.stringify(datos),
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-      });
+      const res = fetch(
+        isEdit
+          ? "http://localhost:3000/ActualizarDepartamento"
+          : "http://localhost:3000/CrearDepartamento",
+        {
+          method: isEdit ? "PUT" : "POST",
+          body: JSON.stringify(datos),
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+        }
+      );
       return res;
     },
     {
       onSuccess: (data) => {
-        console.log(data)
+        console.log(data);
         data.ok !== true
           ? Swal.fire({
               title: "Datos incorrectos",
@@ -28,7 +33,9 @@ export default function AddModalDepartamento() {
               showConfirmButton: false,
             })
           : Swal.fire({
-              title: "Departamento registrado!",
+              title: isEdit
+                ? "Departamento Editado!"
+                : "Departamento registrado!",
               icon: "success",
               timer: 3000,
             });
@@ -42,18 +49,24 @@ export default function AddModalDepartamento() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const datos = {
-      departamento: departamento,
-    };
+    const datos = isEdit
+      ? {
+          iddepartamento: id,
+          Departamento: departamento,
+        }
+      : {
+          Departamento: departamento,
+        }
+        console.log(datos)
     mutation.mutate(datos);
   };
   return (
     <>
       <button
         onClick={() => setOpenModal(true)}
-        className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
+        className={isEdit ?'':"flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"}
       >
-        Añadir Departamento <FaPlus className="text-xl" />
+        {isEdit ?(<FaRegEdit/>): (<>Añadir Departamento <FaPlus className="text-xl" /></>)}
       </button>
       <div
         className={`${

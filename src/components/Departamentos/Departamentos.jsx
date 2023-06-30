@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaRegTrashAlt, FaRegEdit, FaCity, FaPlus } from "react-icons/fa";
+import { FaRegTrashAlt, FaCity, FaPlus } from "react-icons/fa";
 import { useQuery } from "react-query";
 import AddModalDepartamento from "./AddModalDepartamentos";
 
@@ -9,6 +9,7 @@ export default function Departamentos() {
       fetch("http://localhost:3000/ListarDepartamento").then((res) => res.json())
       
     );
+    console.log(data)
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
   return (
     <div className="w-full py-10 flex flex-col items-center justify-start gap-10">
@@ -49,9 +50,7 @@ export default function Departamentos() {
                     <button>
                       <FaRegTrashAlt />
                     </button>
-                    <button>
-                      <FaRegEdit />
-                    </button>
+                    <AddModalDepartamento isEdit={true} id={departamento.iddepartamentos}/>
                   </div>
                 </td>
               </tr>
