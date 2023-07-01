@@ -84,7 +84,7 @@ export default function Cargos() {
               <tr key={salario.idsalario}>
                 <td className={tableStyle}>{salario.idsalario}</td>
                 <td className={tableStyle}>{salario.monto_salario}</td>
-                <td className={tableStyle}>
+                <td className="border-b-2">
                   <div className="flex items-center justify-center text-2xl gap-3">
                     <button>
                       <FaRegTrashAlt

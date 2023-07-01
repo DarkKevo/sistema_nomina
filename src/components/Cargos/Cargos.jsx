@@ -17,7 +17,6 @@ export default function Cargos() {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
         data.ok !== true
           ? Swal.fire({
               title: "Datos incorrectos",
@@ -82,7 +81,7 @@ export default function Cargos() {
               <tr key={cargo.id}>
                 <td className={tableStyle}>{cargo.nombre}</td>
                 <td className={tableStyle}>{cargo.monto}</td>
-                <td className={tableStyle}>
+                <td className="border-b-2">
                   <div className="flex items-center justify-center text-2xl gap-3">
                     <button>
                       <FaRegTrashAlt
