@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaRegTrashAlt, FaCity, FaPlus } from "react-icons/fa";
-import { useMutation, useQuery } from "react-query";
+import {  useQuery } from "react-query";
 import AddModalDepartamento from "./AddModalDepartamentos";
 
 export default function Departamentos() {

@@ -34,7 +34,7 @@ export default function AddModalCargos({ isEdit, id }) {
               showConfirmButton: false,
             })
           : Swal.fire({
-              title: isEdit ? "Cargo registrado!" : "Cargo Editado!",
+              title: isEdit ?"Cargo Editado!" : "Cargo registrado!" ,
               icon: "success",
               timer: 3000,
             });
