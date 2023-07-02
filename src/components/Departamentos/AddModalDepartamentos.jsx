@@ -51,11 +51,11 @@ export default function AddModalDepartamento({ isEdit, id }) {
     e.preventDefault();
     const datos = isEdit
       ? {
-          iddepartamento: id,
-          Departamento: departamento,
+          iddepartamentos: id,
+          departamento: departamento,
         }
       : {
-          Departamento: departamento,
+          departamento: departamento,
         }
         console.log(datos)
     mutation.mutate(datos);
