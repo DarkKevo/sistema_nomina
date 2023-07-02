@@ -34,7 +34,7 @@ export default function AddModalCargos({ isEdit, id }) {
               showConfirmButton: false,
             })
           : Swal.fire({
-              title: isEdit ?"Cargo Editado!" : "Cargo registrado!" ,
+              title: isEdit ? "Cargo Editado!" : "Cargo registrado!" ,
               icon: "success",
               timer: 3000,
             });
@@ -57,7 +57,7 @@ export default function AddModalCargos({ isEdit, id }) {
       ? {
           idcargos: id,
           cargo: nombreCargo,
-          codigo_salario: codigo[0].idsalario,
+          monto_salario: valorSalario,
         }
       : {
           cargo: nombreCargo,
