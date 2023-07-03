@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Swal from "sweetalert2";
 export default function Register() {
   let InputStyle =
@@ -31,7 +31,7 @@ export default function Register() {
             showConfirmButton: false,
           })
         ) : (
-          <Navigate to={"/sesion"} />
+          window.location.href='/sesion/inicio'
         );
       },
       onError: (error) => {
