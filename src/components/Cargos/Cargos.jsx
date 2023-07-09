@@ -78,17 +78,17 @@ export default function Cargos() {
         {data && (
           <tbody>
             {data.map((cargo) => (
-              <tr key={cargo.id}>
-                <td className={tableStyle}>{cargo.nombre}</td>
-                <td className={tableStyle}>{cargo.monto}</td>
+              <tr key={cargo.idcargos}>
+                <td className={tableStyle}>{cargo.cargo}</td>
+                <td className={tableStyle}>{cargo.salario}</td>
                 <td className="border-b-2">
                   <div className="flex items-center justify-center text-2xl gap-3">
                     <button>
                       <FaRegTrashAlt
-                        onClick={(e) => handleDelete(e, cargo.id)}
+                        onClick={(e) => handleDelete(e, cargo.idcargos)}
                       />
                     </button>
-                    <AddModalCargos id={cargo.id} isEdit={true} />
+                    <AddModalCargos id={cargo.idcargos} isEdit={true} />
                   </div>
                 </td>
               </tr>

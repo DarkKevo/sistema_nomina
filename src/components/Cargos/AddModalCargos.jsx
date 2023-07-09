@@ -28,16 +28,16 @@ export default function AddModalCargos({ isEdit, id }) {
         console.log(data);
         data.ok !== true
           ? Swal.fire({
-              title: "Datos incorrectos",
-              icon: "error",
-              timer: 3000,
-              showConfirmButton: false,
-            })
+            title: "Datos incorrectos",
+            icon: "error",
+            timer: 3000,
+            showConfirmButton: false,
+          })
           : Swal.fire({
-              title: isEdit ? "Cargo Editado!" : "Cargo registrado!" ,
-              icon: "success",
-              timer: 3000,
-            });
+            title: isEdit ? "Cargo Editado!" : "Cargo registrado!",
+            icon: "success",
+            timer: 3000,
+          });
         setOpenModal(false);
       },
       onError: (error) => {
@@ -46,23 +46,19 @@ export default function AddModalCargos({ isEdit, id }) {
     }
   );
 
-  const { data } = useQuery("dataMontos", () =>
-    fetch("http://localhost:3000/ListarSalario").then((res) => res.json())
-  );
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    let codigo = data.filter((x) => x.monto_salario == valorSalario);
+
     const datos = isEdit
       ? {
-          idcargos: id,
-          cargo: nombreCargo,
-          monto_salario: valorSalario,
-        }
+        idcargos: id,
+        cargo: nombreCargo,
+        salario: valorSalario,
+      }
       : {
-          cargo: nombreCargo,
-          monto_salario: valorSalario,
-        };
+        cargo: nombreCargo,
+        salario: valorSalario,
+      };
     mutation.mutate(datos);
   };
   return (
@@ -84,9 +80,8 @@ export default function AddModalCargos({ isEdit, id }) {
         )}
       </button>
       <div
-        className={`${
-          openModal ? "grid" : "hidden"
-        } fixed place-items-center top-0 left-0 w-full h-screen bg-black bg-opacity-80 z-10`}
+        className={`${openModal ? "grid" : "hidden"
+          } fixed place-items-center top-0 left-0 w-full h-screen bg-black bg-opacity-80 z-10`}
       >
         <div
           className={`grid fixed bg-DarkBlue right-5 w-3/4 h-3/4 place-items-center z-10 rounded-lg`}
@@ -111,23 +106,15 @@ export default function AddModalCargos({ isEdit, id }) {
                 onChange={(e) => setNombreCargo(e.target.value)}
                 placeholder="Ingrese el nombre del cargo"
               />
-              <select
-                onChange={(e) => setValorSalario(e.target.value)}
+              <input
                 className="p-3 rounded w-full"
+                type="text"
                 name=""
                 id=""
-              >
-                <option value="">Seleccione el monto del salario</option>
-                {data &&
-                  data.map((monto) => (
-                    <option
-                      key={monto.monto_salario}
-                      value={monto.monto_salario}
-                    >
-                      {monto.monto_salario}
-                    </option>
-                  ))}
-              </select>
+                value={valorSalario}
+                onChange={(e) => setValorSalario(e.target.value)}
+                placeholder="Ingrese el monto del cargo"
+              />
             </div>
             <div className="w-full border-t-2 border-white p-3 flex justify-end gap-3">
               <input
