@@ -40,15 +40,12 @@ export default function Dashboard() {
     salarios: <FaMoneyBillAlt className={styles.iconsList} />,
     departamentos: <FaCity className={styles.iconsList} />,
     empleados: <FaUsers className={styles.iconsList} />,
-    deducciones: <FaDollarSign className={styles.iconsList} />,
   };
 
   const items = [
     { name: "Cargos", icon: icons.cargos },
-    { name: "Salarios", icon: icons.salarios },
     { name: "Departamentos", icon: icons.departamentos },
     { name: "Empleados", icon: icons.empleados },
-    { name: "Deducciones", icon: icons.deducciones },
   ];
 
   return (

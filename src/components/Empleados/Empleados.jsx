@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from "react-icons/fa";
 import { useQuery } from "react-query";
 import AddModalEmpleados from './AddModalEmpleados'
+import { CrearPdfEmpleado } from "../../pdf/controllers/PdfEmpleado";
 
 export default function Empleados() {
-
   const { data } = useQuery("repoData", () =>
       fetch("http://localhost:3000/ListarEmpleados").then((res) => res.json())
-      
     );
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-2";
+
   return (
     <div className="w-full py-10 flex flex-col items-center justify-start gap-10">
       <nav className="w-3/4 rounded-md flex justify-between">
@@ -49,7 +49,7 @@ export default function Empleados() {
             <th
               className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
             >
-              DEPARTAMENTO
+              Banco
             </th>
             <th
               className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
@@ -87,6 +87,9 @@ export default function Empleados() {
                     </button>
                     <button>
                       <FaRegEdit />
+                    </button>
+                    <button className="text-sm border-2 border-black rounded-lg p-1" onClick={()=>CrearPdfEmpleado()}>
+                      PDF
                     </button>
                   </div>
                 </td>

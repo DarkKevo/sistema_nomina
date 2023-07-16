@@ -8,7 +8,6 @@ import Cargos from './components/Cargos/Cargos'
 import Salarios from './components/Salarios/Salarios'
 import Departamentos from './components/Departamentos/Departamentos'
 import Empleados from './components/Empleados/Empleados'
-import Deducciones from './components/Deducciones'
 function App() {
 
   return (
@@ -21,7 +20,6 @@ function App() {
         <Route path='salarios' element={<Salarios/>}/>
         <Route path='departamentos' element={<Departamentos/>}/>
         <Route path='empleados' element={<Empleados/>}/>
-        <Route path='deducciones' element={<Deducciones/>}/>
       </Route>
     </Routes>
   )
