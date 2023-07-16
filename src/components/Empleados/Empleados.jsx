@@ -44,6 +44,11 @@ export default function Empleados() {
             <th
               className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
             >
+              Telefono
+            </th>
+            <th
+              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+            >
               CARGO
             </th>
             <th
@@ -54,12 +59,12 @@ export default function Empleados() {
             <th
               className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
             >
-              DEDUCCION
+              Empresa
             </th>
             <th
               className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
             >
-              ESTADO
+              Estado
             </th>
             <th
               className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
@@ -76,10 +81,11 @@ export default function Empleados() {
                 <td className={tableStyle}>{empleado.nombres}</td>
                 <td className={tableStyle}>{empleado.apellidos}</td>
                 <td className={tableStyle}>{empleado.correo}</td>
+                <td className={tableStyle}>{empleado.telefono}</td>
                 <td className={tableStyle}>{empleado.codigo_cargo}</td>
                 <td className={tableStyle}>{empleado.codigo_departamento}</td>
-                <td className={tableStyle}>{empleado.codigo_deduccion}</td>
                 <td className={tableStyle}>{empleado.codigo_empresa}</td>
+                <td className={tableStyle}>{empleado.estado}</td>
                 <td className={tableStyle}>
                   <div className="flex items-center justify-center text-2xl gap-3">
                     <button>
