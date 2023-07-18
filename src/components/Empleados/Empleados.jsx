@@ -1,14 +1,63 @@
 import { useEffect, useState } from "react";
 import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from "react-icons/fa";
-import { useQuery } from "react-query";
-import AddModalEmpleados from './AddModalEmpleados'
+import { useQuery, useMutation } from "react-query";
+import AddModalEmpleados from "./AddModalEmpleados";
 import { CrearPdfEmpleado } from "../../pdf/controllers/PdfEmpleado";
+import Swal from "sweetalert2";
 
 export default function Empleados() {
-  const { data } = useQuery("repoData", () =>
-      fetch("http://localhost:3000/ListarEmpleados").then((res) => res.json())
-    );
+  const empleados = useQuery("empleados", () =>
+    fetch("http://localhost:3000/ListarEmpleados").then((res) => res.json()),{
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const mutation = useMutation(
+    (data) => {
+      const res = fetch("http://localhost:3000/EliminarEmpleado", {
+        method: "DELETE",
+        body: JSON.stringify(data),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      });
+      return res;
+    },
+    {
+      onSuccess: (data) => {
+        if (data.ok !== true) {
+          Swal.fire({
+            title: "Datos incorrectos",
+            icon: "error",
+            timer: 3000,
+            showConfirmButton: false,
+          });
+        } else {
+          Swal.fire({
+            title: "Empleado Eliminado!",
+            icon: "success",
+            timer: 3000,
+          });
+          empleados.refetch();
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
+
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    const data = {
+      idEmpleados: id,
+    };
+    mutation.mutate(data);
+  };
+
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-2";
+
+  if (empleados.isLoading||empleados.isIdle) {
+    return <span>Cargando...</span>;
+  }
 
   return (
     <div className="w-full py-10 flex flex-col items-center justify-start gap-10">
@@ -16,67 +65,69 @@ export default function Empleados() {
         <h1 className="flex gap-2 items-center text-sm font-bold">
           <FaUsers className="text-2xl" /> Empleados en la empresa
         </h1>
-        <AddModalEmpleados/>
+        <AddModalEmpleados update={empleados.refetch} />
       </nav>
-      <table className="w-1/4 border-collapse border-2">
-        <thead>
-          <tr>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              CEDULA
-            </th>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              NOMBRES
-            </th>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              APELLIDOS
-            </th>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              Correo Electronico
-            </th>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              Telefono
-            </th>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              CARGO
-            </th>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              Banco
-            </th>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              Empresa
-            </th>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              Estado
-            </th>
-            <th
-              className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-            >
-              ACTIONS
-            </th>
-          </tr>
-        </thead>
-        {data && (
+      {empleados.data.error ? (
+        <>no hay</>
+      ) : (
+        <table className="w-1/4 border-collapse border-2">
+          <thead>
+            <tr>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                CEDULA
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                NOMBRES
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                APELLIDOS
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                Correo Electronico
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                Telefono
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                CARGO
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                Banco
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                Empresa
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                Estado
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                ACTIONS
+              </th>
+            </tr>
+          </thead>
           <tbody>
-            {data.map((empleado) => (
-              <tr key={empleado.idEmpleado}>
+            {empleados.data.map((empleado) => (
+              <tr key={empleado.idEmpleados}>
                 <td className={tableStyle}>{empleado.cedula}</td>
                 <td className={tableStyle}>{empleado.nombres}</td>
                 <td className={tableStyle}>{empleado.apellidos}</td>
@@ -88,13 +139,18 @@ export default function Empleados() {
                 <td className={tableStyle}>{empleado.estado}</td>
                 <td className={tableStyle}>
                   <div className="flex items-center justify-center text-2xl gap-3">
-                    <button>
+                    <button
+                      onClick={(e) => handleDelete(e, empleado.idEmpleados)}
+                    >
                       <FaRegTrashAlt />
                     </button>
                     <button>
                       <FaRegEdit />
                     </button>
-                    <button className="text-sm border-2 border-black rounded-lg p-1" onClick={()=>CrearPdfEmpleado()}>
+                    <button
+                      className="text-sm border-2 border-black rounded-lg p-1"
+                      onClick={() => CrearPdfEmpleado()}
+                    >
                       PDF
                     </button>
                   </div>
@@ -102,8 +158,8 @@ export default function Empleados() {
               </tr>
             ))}
           </tbody>
-        )}
-      </table>
+        </table>
+      )}
     </div>
   );
 }

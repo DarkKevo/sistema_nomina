@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { useMutation } from "react-query";
+import { useState, useContext } from "react";
+import { useMutation, useQuery } from "react-query";
 import { FaPlus } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalEmpleados() {
+export default function AddModalEmpleados({ update }) {
   //estados para el fetch
   const [cedula, setCedula] = useState("");
   const [nombres, setNombres] = useState("");
@@ -11,11 +11,11 @@ export default function AddModalEmpleados() {
   const [fechaNacimiento, setFecha] = useState("");
   const [direccion, setDireccion] = useState("");
   const [correo, setCorreo] = useState("");
-  const [codigoCargo, setCodigoCargo] = useState("");
-  const [codigoDepartamento, setCodigoDepartamento] = useState("");
-  const [codigoDeduccion, setCodigoDeduccion] = useState("");
-  const [codigoEmpresa, setCodigoEmpresa] = useState("");
-  const [estado, setEstado] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [cargo, setCargo] = useState("none");
+  const [departamento, setDepartamento] = useState("none");
+  const [empresa, setEmpresa] = useState("");
+  const [estado, setEstado] = useState("none");
   const [openModal, setOpenModal] = useState(false);
 
   const mutation = useMutation(
@@ -29,19 +29,21 @@ export default function AddModalEmpleados() {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
-        data.ok !== true
-          ? Swal.fire({
-              title: "Datos incorrectos",
-              icon: "error",
-              timer: 3000,
-              showConfirmButton: false,
-            })
-          : Swal.fire({
-              title: "Departamento registrado!",
-              icon: "success",
-              timer: 3000,
-            });
+        if (data.ok !== true) {
+          Swal.fire({
+            title: "Datos incorrectos",
+            icon: "error",
+            timer: 3000,
+            showConfirmButton: false,
+          });
+        } else {
+          Swal.fire({
+            title: "empleado registrado!",
+            icon: "success",
+            timer: 3000,
+          });
+          update();
+        }
         setOpenModal(false);
       },
       onError: (error) => {
@@ -49,24 +51,36 @@ export default function AddModalEmpleados() {
       },
     }
   );
+  const cargos = useQuery("cargos", () =>
+    fetch("http://localhost:3000/ListarCargo").then((res) => res.json())
+  );
+  const departamentos = useQuery("departamentos", () =>
+    fetch("http://localhost:3000/ListarDepartamento").then((res) => res.json())
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const datos = {
+    const data = {
       cedula: cedula,
       nombres: nombres,
       apellidos: apellidos,
       fecha_nacimiento: fechaNacimiento,
       direccion: direccion,
       correo: correo,
-      codigo_cargo: codigoCargo,
-      codigo_departamento: codigoDepartamento,
-      codigo_deduccion: codigoDeduccion,
-      codigo_empresa: codigoEmpresa,
-      estado: estado
-    }
-    mutation.mutate(datos);
+      telefono: telefono,
+      codigo_cargo: parseInt(cargo),
+      codigo_departamento: parseInt(departamento),
+      codigo_empresa: 1,
+      estado: estado,
+    };
+
+    mutation.mutate(data);
   };
+
+  if (departamentos.isLoading || cargos.isLoading) {
+    return <span>Cargando...</span>;
+  }
+
   return (
     <>
       <button
@@ -153,33 +167,63 @@ export default function AddModalEmpleados() {
                 type="text"
                 name=""
                 id=""
-                value={codigoCargo}
-                onChange={(e) => setCodigoCargo(e.target.value)}
-                placeholder="Ingrese su cargo (codigo)"
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
               />
+              {cargos.data && (
+                <select
+                  value={cargo}
+                  className="p-3 rounded w-1/4"
+                  name=""
+                  id=""
+                  onChange={(e) => setCargo(e.target.value)}
+                >
+                  <option value="none"> Seleccione el cargo</option>
+                  {cargos.data.error
+                    ? ""
+                    : cargos.data &&
+                      cargos.data.map((cargo) => (
+                        <option key={cargo.idcargos} value={cargo.idcargos}>
+                          {cargo.cargo}
+                        </option>
+                      ))}
+                </select>
+              )}
+              <select
+                value={departamento}
+                className="p-3 rounded w-1/4"
+                onChange={(e) => setDepartamento(e.target.value)}
+              >
+                <option value="none"> Seleccione el departamento</option>
+                {departamentos.data.error
+                  ? ""
+                  : departamentos.data &&
+                    departamentos.data.map((departamento) => (
+                      <option
+                        key={departamento.iddepartamentos}
+                        value={departamento.iddepartamentos}
+                      >
+                        {departamento.departamento}
+                      </option>
+                    ))}
+              </select>
+
               <input
                 className="p-3 rounded w-1/4"
                 type="text"
                 name=""
                 id=""
-                value={codigoDepartamento}
-                onChange={(e) => setCodigoDepartamento(e.target.value)}
-                placeholder="Ingrese su departamento (codigo)"
-              />
-              <input
-                className="p-3 rounded w-1/4"
-                type="text"
-                name=""
-                id=""
-                value={codigoEmpresa}
-                onChange={(e) => setCodigoEmpresa(e.target.value)}
-                placeholder="Ingrese su empresa (codigo)"
+                value={empresa}
+                onChange={(e) => setEmpresa(e.target.value)}
+                placeholder="Ingrese su empresa"
               />
               <select
+                value={estado}
                 onChange={(e) => setEstado(e.target.value)}
                 className="p-3 rounded w-1/4"
                 id=""
               >
+                <option value="none">seleccione</option>
                 <option value="activo">activo</option>
                 <option value="inactivo">inactivo</option>
               </select>

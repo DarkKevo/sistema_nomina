@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalDepartamento({ isEdit, id }) {
+export default function AddModalDepartamento({ isEdit, id, update }) {
   //estados para el fetch
   const [departamento, setDepartamento] = useState("");
   const [openModal, setOpenModal] = useState(false);
@@ -25,20 +25,23 @@ export default function AddModalDepartamento({ isEdit, id }) {
     {
       onSuccess: (data) => {
         console.log(data);
-        data.ok !== true
-          ? Swal.fire({
-              title: "Datos incorrectos",
-              icon: "error",
-              timer: 3000,
-              showConfirmButton: false,
-            })
-          : Swal.fire({
-              title: isEdit
-                ? "Departamento Editado!"
-                : "Departamento registrado!",
-              icon: "success",
-              timer: 3000,
-            });
+        if (data.ok !== true) {
+          Swal.fire({
+            title: "Datos incorrectos",
+            icon: "error",
+            timer: 3000,
+            showConfirmButton: false,
+          });
+        } else {
+          Swal.fire({
+            title: isEdit
+              ? "Departamento Editado!"
+              : "Departamento registrado!",
+            icon: "success",
+            timer: 3000,
+          });
+          update()
+        }
         setOpenModal(false);
       },
       onError: (error) => {
@@ -56,17 +59,27 @@ export default function AddModalDepartamento({ isEdit, id }) {
         }
       : {
           departamento: departamento,
-        }
-        console.log(datos)
+        };
+    console.log(datos);
     mutation.mutate(datos);
   };
   return (
     <>
       <button
         onClick={() => setOpenModal(true)}
-        className={isEdit ?'':"flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"}
+        className={
+          isEdit
+            ? ""
+            : "flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
+        }
       >
-        {isEdit ?(<FaRegEdit/>): (<>Añadir Departamento <FaPlus className="text-xl" /></>)}
+        {isEdit ? (
+          <FaRegEdit />
+        ) : (
+          <>
+            Añadir Departamento <FaPlus className="text-xl" />
+          </>
+        )}
       </button>
       <div
         className={`${
