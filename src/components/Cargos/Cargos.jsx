@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { FaRegTrashAlt, FaUserTie, FaPlus } from "react-icons/fa";
 import AddModalCargos from "./AddModalCargos";
 import Swal from "sweetalert2";
 
 export default function Cargos() {
+
   const mutation = useMutation(
     (data) => {
       const res = fetch("http://localhost:3000/EliminarCargo", {
