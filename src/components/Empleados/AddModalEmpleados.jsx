@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import { useMutation, useQuery } from "react-query";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalEmpleados({ update }) {
+export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
   //estados para el fetch
   const [cedula, setCedula] = useState("");
   const [nombres, setNombres] = useState("");
@@ -20,11 +20,16 @@ export default function AddModalEmpleados({ update }) {
 
   const mutation = useMutation(
     (datos) => {
-      const res = fetch("http://localhost:3000/RegistrarEmpleado", {
-        method: "POST",
-        body: JSON.stringify(datos),
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-      });
+      const res = fetch(
+        isEdit
+          ? "http://localhost:3000/EditarEmpleado"
+          : "http://localhost:3000/RegistrarEmpleado",
+        {
+          method: isEdit ? "PUT" : "POST",
+          body: JSON.stringify(datos),
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+        }
+      );
       return res;
     },
     {
@@ -38,7 +43,9 @@ export default function AddModalEmpleados({ update }) {
           });
         } else {
           Swal.fire({
-            title: "empleado registrado!",
+            title: isEdit
+              ? "Informacion de empleado editada"
+              : "Empleado registrado!",
             icon: "success",
             timer: 3000,
           });
@@ -60,19 +67,34 @@ export default function AddModalEmpleados({ update }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = {
-      cedula: cedula,
-      nombres: nombres,
-      apellidos: apellidos,
-      fecha_nacimiento: fechaNacimiento,
-      direccion: direccion,
-      correo: correo,
-      telefono: telefono,
-      codigo_cargo: parseInt(cargo),
-      codigo_departamento: parseInt(departamento),
-      codigo_empresa: 1,
-      estado: estado,
-    };
+    const data = isEdit
+      ? {
+          cedula: cedula,
+          nombres: nombres,
+          apellidos: apellidos,
+          fecha_nacimiento: fechaNacimiento,
+          direccion: direccion,
+          correo: correo,
+          telefono: telefono,
+          codigo_cargo: parseInt(cargo),
+          codigo_departamento: parseInt(departamento),
+          codigo_empresa: 1,
+          estado: estado,
+          idEmpleados: idEmpleado,
+        }
+      : {
+          cedula: cedula,
+          nombres: nombres,
+          apellidos: apellidos,
+          fecha_nacimiento: fechaNacimiento,
+          direccion: direccion,
+          correo: correo,
+          telefono: telefono,
+          codigo_cargo: parseInt(cargo),
+          codigo_departamento: parseInt(departamento),
+          codigo_empresa: 1,
+          estado: estado,
+        };
 
     mutation.mutate(data);
   };
@@ -85,9 +107,19 @@ export default function AddModalEmpleados({ update }) {
     <>
       <button
         onClick={() => setOpenModal(true)}
-        className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
+        className={
+          isEdit
+            ? "flex items-center"
+            : "flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
+        }
       >
-        Añadir Empleado <FaPlus className="text-xl" />
+        {isEdit ? (
+          <FaRegEdit />
+        ) : (
+          <>
+            Añadir Empleado <FaPlus className="text-xl" />
+          </>
+        )}
       </button>
       <div
         className={`${
@@ -95,7 +127,7 @@ export default function AddModalEmpleados({ update }) {
         } fixed place-items-center top-0 left-0 w-full h-screen bg-black bg-opacity-80 z-10`}
       >
         <div
-          className={`grid fixed bg-DarkBlue right-5 w-3/4 h-3/4 place-items-center z-10 rounded-lg`}
+          className={`grid fixed bg-DarkBlue right-5 w-3/4 h-3/4 place-items-center z-10 rounded-lg text-lg`}
         >
           <form
             className="flex flex-col items-center h-full justify-between gap-5 p-4"
@@ -166,7 +198,7 @@ export default function AddModalEmpleados({ update }) {
                 className="p-3 rounded w-1/4"
                 type="text"
                 name=""
-                id=""
+                placeholder="Telefono"
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
               />

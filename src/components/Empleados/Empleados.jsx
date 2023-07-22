@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from "react-icons/fa";
 import { useQuery, useMutation } from "react-query";
 import AddModalEmpleados from "./AddModalEmpleados";
-import { CrearPdfEmpleado } from "../../pdf/controllers/PdfEmpleado";
+import ModalPDF from "./ModalPdf";
 import Swal from "sweetalert2";
 
 export default function Empleados() {
@@ -137,7 +137,7 @@ export default function Empleados() {
                 <td className={tableStyle}>{empleado.codigo_departamento}</td>
                 <td className={tableStyle}>{empleado.codigo_empresa}</td>
                 <td className={tableStyle}>{empleado.estado}</td>
-                <td className={tableStyle}>
+                <td className='border-b-2'>
                   <div className="flex items-center justify-center text-2xl gap-3">
                     <button
                       onClick={(e) => handleDelete(e, empleado.idEmpleados)}
@@ -145,14 +145,9 @@ export default function Empleados() {
                       <FaRegTrashAlt />
                     </button>
                     <button>
-                      <FaRegEdit />
+                      <AddModalEmpleados idEmpleado={empleado.idEmpleados} isEdit={true} update={empleados.refetch}/>
                     </button>
-                    <button
-                      className="text-sm border-2 border-black rounded-lg p-1"
-                      onClick={() => CrearPdfEmpleado()}
-                    >
-                      PDF
-                    </button>
+                    <ModalPDF/>
                   </div>
                 </td>
               </tr>

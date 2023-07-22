@@ -5,11 +5,11 @@ import Register from "./views/Register";
 import Dashboard from "./components/Dashboard";
 import Inicio from "./components/Inicio";
 import Cargos from "./components/Cargos/Cargos";
-import Salarios from "./components/Salarios/Salarios";
 import Departamentos from "./components/Departamentos/Departamentos";
 import Empleados from "./components/Empleados/Empleados";
 import ValidateSesion from "./context/ValidateSesion";
 import RutasProtegidas from "./routes/RutasProtegidas";
+import Pagos from "./components/Pagos/Pagos";
 function App() {
   return (
     <>
@@ -20,9 +20,9 @@ function App() {
         <Route path="/sesion" element={<RutasProtegidas><Dashboard /></RutasProtegidas>}>
           <Route path="inicio" element={<Inicio />} />
           <Route path="cargos" element={<Cargos />} />
-          <Route path="salarios" element={<Salarios />} />
           <Route path="departamentos" element={<Departamentos />} />
           <Route path="empleados" element={<Empleados />} />
+          <Route path="pagos" element={<Pagos />} />
         </Route>
       </Routes>
       </ValidateSesion>

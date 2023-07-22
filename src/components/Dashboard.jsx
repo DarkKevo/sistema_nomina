@@ -37,7 +37,7 @@ export default function Dashboard() {
       />
     ),
     cargos: <FaUserTie className={styles.iconsList} />,
-    salarios: <FaMoneyBillAlt className={styles.iconsList} />,
+    Pagos: <FaMoneyBillAlt className={styles.iconsList} />,
     departamentos: <FaCity className={styles.iconsList} />,
     empleados: <FaUsers className={styles.iconsList} />,
   };
@@ -46,6 +46,7 @@ export default function Dashboard() {
     { name: "Cargos", icon: icons.cargos },
     { name: "Departamentos", icon: icons.departamentos },
     { name: "Empleados", icon: icons.empleados },
+    { name: "Pagos", icon: icons.Pagos },
   ];
 
   return (
