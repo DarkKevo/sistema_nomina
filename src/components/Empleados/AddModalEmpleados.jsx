@@ -15,6 +15,7 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
   const [cargo, setCargo] = useState("none");
   const [departamento, setDepartamento] = useState("none");
   const [empresa, setEmpresa] = useState("");
+  const [cuenta, setCuenta] = useState("");
   const [estado, setEstado] = useState("none");
   const [openModal, setOpenModal] = useState(false);
 
@@ -79,6 +80,7 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
           codigo_cargo: parseInt(cargo),
           codigo_departamento: parseInt(departamento),
           codigo_empresa: 1,
+          numero_cuenta: cuenta,
           estado: estado,
           idEmpleados: idEmpleado,
         }
@@ -93,6 +95,7 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
           codigo_cargo: parseInt(cargo),
           codigo_departamento: parseInt(departamento),
           codigo_empresa: 1,
+          numero_cuenta: cuenta,
           estado: estado,
         };
 
@@ -248,6 +251,16 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
                 value={empresa}
                 onChange={(e) => setEmpresa(e.target.value)}
                 placeholder="Ingrese su empresa"
+              />
+
+              <input
+                className="p-3 rounded w-1/4"
+                type="text"
+                name=""
+                id=""
+                value={cuenta}
+                onChange={(e) => setCuenta(e.target.value)}
+                placeholder="Ingrese su número de cuenta"
               />
               <select
                 value={estado}

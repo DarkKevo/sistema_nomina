@@ -106,12 +106,12 @@ export default function Empleados() {
               <th
                 className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
               >
-                Banco
+                Departamento
               </th>
               <th
                 className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
               >
-                Empresa
+                Banco
               </th>
               <th
                 className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
@@ -135,7 +135,7 @@ export default function Empleados() {
                 <td className={tableStyle}>{empleado.telefono}</td>
                 <td className={tableStyle}>{empleado.codigo_cargo}</td>
                 <td className={tableStyle}>{empleado.codigo_departamento}</td>
-                <td className={tableStyle}>{empleado.codigo_empresa}</td>
+                <td className={tableStyle}>{empleado.numero_cuenta}</td>
                 <td className={tableStyle}>{empleado.estado}</td>
                 <td className='border-b-2'>
                   <div className="flex items-center justify-center text-2xl gap-3">
@@ -147,7 +147,7 @@ export default function Empleados() {
                     <button>
                       <AddModalEmpleados idEmpleado={empleado.idEmpleados} isEdit={true} update={empleados.refetch}/>
                     </button>
-                    <ModalPDF/>
+                    <ModalPDF idEmpleados={empleado.idEmpleados}/>
                   </div>
                 </td>
               </tr>
