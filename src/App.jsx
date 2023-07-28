@@ -10,13 +10,14 @@ import Empleados from "./components/Empleados/Empleados";
 import ValidateSesion from "./context/ValidateSesion";
 import RutasProtegidas from "./routes/RutasProtegidas";
 import Pagos from "./components/Pagos/Pagos";
+import RutasIncio from "./routes/RutasInicio";
 function App() {
   return (
     <>
     <ValidateSesion>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/registro" element={<Register />} />
+        <Route path="/" element={<RutasIncio><Login /></RutasIncio>} />
+        <Route path="/registro" element={<RutasIncio><Register /></RutasIncio>} />
         <Route path="/sesion" element={<RutasProtegidas><Dashboard /></RutasProtegidas>}>
           <Route path="inicio" element={<Inicio />} />
           <Route path="cargos" element={<Cargos />} />

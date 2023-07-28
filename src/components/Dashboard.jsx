@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import {
   FaTimes,
   FaBars,
@@ -8,7 +8,9 @@ import {
   FaCity,
   FaUsers,
   FaDollarSign,
+  FaRegArrowAltCircleRight,
 } from "react-icons/fa";
+import { sesion } from "../context/ValidateSesion";
 
 export default function Dashboard() {
   const [open, setOpen] = useState("-left-[202px]");
@@ -19,6 +21,8 @@ export default function Dashboard() {
     } border-black border-opacity-30`,
   };
 
+  const {setToken} = useContext(sesion)
+  const Navigate = useNavigate()
   const icons = {
     bars: (
       <FaBars
@@ -49,6 +53,12 @@ export default function Dashboard() {
     { name: "Pagos", icon: icons.Pagos },
   ];
 
+  function logOut(){
+    window.localStorage.clear()
+    setToken('0')
+    Navigate('/')
+  }
+
   return (
     <div className="font-poppins flex min-h-screen">
       <div className="w-1/6 z-10">
@@ -76,6 +86,10 @@ export default function Dashboard() {
                 </li>
               </Link>
             ))}
+            <li className="flex items-center justify-start gap-3 hover:border-2 hover:p-2 hover:rounded-lg hover:border-gray-400 cursor-pointer" onClick={logOut}>
+              Cerrar Sesión
+              <FaRegArrowAltCircleRight />
+            </li>
           </ul>
         </div>
       </div>

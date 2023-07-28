@@ -12,7 +12,8 @@ export default function Login() {
   const [pass, setPass] = useState("");
   const navigate = useNavigate()
 
-  const { setToken } = useContext(sesion);
+  const { setToken } = useContext(sesion)
+
   const mutation = useMutation(
     (data) => {
       const res = fetch("http://localhost:3000/loginUser", {
@@ -33,6 +34,7 @@ export default function Login() {
           });
         } else {
           setToken(data.token)
+          window.localStorage.setItem('token', data.token)
           navigate('/sesion/inicio')
         }
       },

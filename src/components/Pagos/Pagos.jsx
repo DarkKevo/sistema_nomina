@@ -2,6 +2,7 @@ import {useMutation, useQuery } from 'react-query'
 import AddModalPagos from './AddModalPagos';
 import {FaRegTrashAlt, FaUserTie} from 'react-icons/fa'
 import Swal from 'sweetalert2';
+import ModalTXT from './ModalTXT';
 
 export default function Pagos() {
   const mutation = useMutation(
@@ -50,7 +51,6 @@ export default function Pagos() {
     fetch("http://localhost:3000/ListarBanco").then((res) => res.json())
   );
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
-
   if (bancos.isLoading) {
     return <span>Cargando...</span>;
   }
@@ -125,6 +125,7 @@ export default function Pagos() {
             )}
           </table>
         )}
+        <ModalTXT bancos={bancos}/>
       </div>
   );
 }
