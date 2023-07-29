@@ -59,6 +59,12 @@ export default function Empleados() {
     return <span>Cargando...</span>;
   }
 
+  const fecha_a = (antiguedad) =>{
+    const f = new Date(antiguedad)
+    const fa = `${f.getDate()}-`+ `${f.getMonth() + 1}-`+`${f.getFullYear()}`;
+    return(fa)
+  }
+
   return (
     <div className="w-full py-10 flex flex-col items-center justify-start gap-10">
       <nav className="w-3/4 rounded-md flex justify-between">
@@ -116,6 +122,11 @@ export default function Empleados() {
               <th
                 className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
               >
+                Antiguedad
+              </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
                 Estado
               </th>
               <th
@@ -136,6 +147,7 @@ export default function Empleados() {
                 <td className={tableStyle}>{empleado.codigo_cargo}</td>
                 <td className={tableStyle}>{empleado.codigo_departamento}</td>
                 <td className={tableStyle}>{empleado.numero_cuenta}</td>
+                <td className={tableStyle}>{fecha_a(empleado.antiguedad)}</td>
                 <td className={tableStyle}>{empleado.estado}</td>
                 <td className='border-b-2'>
                   <div className="flex items-center justify-center text-2xl gap-3">
