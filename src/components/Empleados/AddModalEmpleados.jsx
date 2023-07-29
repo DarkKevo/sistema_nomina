@@ -275,12 +275,12 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
             </div>
             <div className="w-full border-t-2 border-white p-3 flex justify-end gap-3">
               <input
-                className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded"
+                className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded cursor-pointer"
                 type="submit"
                 value="Enviar"
               />
               <input
-                className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded"
+                className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded cursor-pointer"
                 type="button"
                 value="Cancelar"
                 onClick={() => {

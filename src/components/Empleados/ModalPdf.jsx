@@ -42,10 +42,11 @@ export default function ModalPDF(idEmpleados) {
           <PDFDownloadLink
             document={Pdf}
             fileName={`${tittle}.pdf`}
+            className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded text-center"
           >
-            <button className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded">
+         
               Datos personales
-            </button>
+        
           </PDFDownloadLink>
           <button className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded">
             Constancia de trabajo
