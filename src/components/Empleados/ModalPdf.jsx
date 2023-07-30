@@ -3,9 +3,11 @@ import { FaTimes } from "react-icons/fa";
 import { CrearPdfEmpleado } from "../../pdf/controllers/PdfEmpleado";
 import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import { MyDoc } from "../../pdf/plantillas/Pdf";
-let data ={"datos":"datos"}
-let Pdf = MyDoc()
-let tittle = "Inf_Emp"
+import { MyConst } from "../../pdf/plantillas/Constancia";
+let data = { datos: "datos" };
+let Pdf = MyDoc();
+let Constancia = MyConst();
+let tittle = "Inf_Emp";
 
 export default function ModalPDF(idEmpleados) {
   const [openModal, setOpenModal] = useState(false);
@@ -15,10 +17,11 @@ export default function ModalPDF(idEmpleados) {
       <button
         className="text-sm border-2 border-black rounded-lg p-1"
         onClick={async () => {
-          data = await CrearPdfEmpleado(idEmpleados)
-          Pdf = await MyDoc(data)
-          if (data.apellidos != "" && data.apellidos !== undefined ) {
-            tittle = data.apellidos
+          data = await CrearPdfEmpleado(idEmpleados);
+          Pdf = await MyDoc(data);
+          Constancia = await MyConst(data);
+          if (data.apellidos != "" && data.apellidos !== undefined) {
+            tittle = data.apellidos;
           }
           setOpenModal(!openModal);
         }}
@@ -44,13 +47,15 @@ export default function ModalPDF(idEmpleados) {
             fileName={`${tittle}.pdf`}
             className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded text-center"
           >
-         
-              Datos personales
-        
+            Datos personales
           </PDFDownloadLink>
-          <button className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded">
-            Constancia de trabajo
-          </button>
+          <PDFDownloadLink
+            document={Constancia}
+            fileName={`${tittle}_Constancia.pdf`}
+            className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded"
+          >
+              Constancia de trabajo
+          </PDFDownloadLink>
         </div>
       </div>
     </div>
