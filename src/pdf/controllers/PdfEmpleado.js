@@ -17,6 +17,10 @@ export const CrearPdfEmpleado = async (i) => {
   });
   let data2 = await res2.json();
 
+  let res3 = await fetch("http://localhost:3000/ListarEmpresa", {
+  });
+  let data3 = await res3.json();
+
   const data = {
     idEmpleados: data1.idEmpleados,
     cedula: data1.cedula,
@@ -33,6 +37,11 @@ export const CrearPdfEmpleado = async (i) => {
     numero_cuenta: data1.numero_cuenta,
     antiguedad: data1.antiguedad,
     salario: data2.salario,
+    rif: data3[0].rif,
+    nombre: data3[0].nombre,
+    direccion_e: data3[0].direccion,
+    telefono_e: data3[0].telefono,
+    correo_e: data3[0].correo
   };
 
   return data;

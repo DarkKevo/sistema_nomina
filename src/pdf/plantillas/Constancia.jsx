@@ -23,7 +23,12 @@ export function MyConst(data) {
     nombres,
     antiguedad,
     salario,
-  ] = ["", "", "", "", "", "", "", "", "",""];
+    rif,
+    nombre,
+    direccion_e,
+    telefono_e,
+    correo_e
+  ] = ["", "", "", "", "", "", "", "", "","","","","","",""];
 
   if (data != "" && data !== undefined) {
     apellidos = data.apellidos;
@@ -34,6 +39,11 @@ export function MyConst(data) {
     nombres = data.nombres;
     antiguedad = data.antiguedad;
     salario = data.salario;
+    rif = data.rif,
+    nombre = data.nombre,
+    direccion_e = data.direccion_e,
+    telefono_e = data.telefono_e,
+    correo_e = data.correo_e
   }
 
   function f_letra(fecha) {
@@ -143,9 +153,9 @@ export function MyConst(data) {
       textAlign: "center",
       fontFamily: "Helvetica",
       alignItems: "center",
+      marginBottom: "0.3cm", 
     },
     txt2: { marginBottom: "0.3cm" },
-    txt3: { marginBottom: "0.3cm", marginTop: "0.3cm" },
   });
 
   return (
@@ -155,7 +165,7 @@ export function MyConst(data) {
           <View style={styles.logo}></View>
           <View style={styles.empresa}>
             <Text>{codigo_empresa}</Text>
-            <Text>Rif</Text>
+            <Text>{rif}</Text>
           </View>
         </View>
         <View style={styles.content}>
@@ -182,10 +192,10 @@ export function MyConst(data) {
           <View style={styles.firma}>
             <View style={styles.linea}></View>
             <Text style={styles.txt2}>{codigo_empresa}</Text>
-            <Text style={styles.txt2}>{"RIF"}</Text>
-            <Text style={styles.txt2}>{"Telefono"}</Text>
-            <Text style={styles.txt3}>{"correo"}</Text>
-            <Text style={styles.adress}>{"Direccion"}</Text>
+            <Text style={styles.txt2}>{rif}</Text>
+            <Text style={styles.txt2}>{telefono_e}</Text>
+            <Text style={styles.txt2}>{correo_e}</Text>
+            <Text style={styles.adress}>{direccion_e}</Text>
           </View>
         </View>
       </Page>
