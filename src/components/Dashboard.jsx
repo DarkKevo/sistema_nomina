@@ -69,7 +69,9 @@ export default function Dashboard() {
           }
         >
           {open == "-left-[202px]" ? icons.bars : icons.close}
-          <img className="w-3/4" src="../public/logo_transparent.png" alt="" />
+          <Link to={'/sesion/inicio'} className="w-3/4">
+          <img  src="../public/logo_transparent.png" alt="Logo Sistema"/>
+          </Link>
           <ul className="w-full flex flex-col gap-5 items-center font-extrabold text-md">
             {items.map((item) => (
               <Link

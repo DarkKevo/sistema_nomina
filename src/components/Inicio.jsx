@@ -1,12 +1,31 @@
-import { useContext } from "react"
-export default function Inicio(){
-    return(
-    <div className="w-full font-poppins">
-        <img className="w-full" src="public\logo_transparent.png" alt="" />
-        <h1>empresa</h1>
-        <p>Desde: 01/02/2020</p>
-        <p>RIF: j-38483492</p>
-        <p>Total de empleados: 300</p>
+import { useContext } from "react";
+import ModalEmpresa from "./ModalEmpresa";
+export default function Inicio() {
+  return (
+    <div className="w-full flex flex-col items-center justify-center font-poppins p-10">
+      <div className="w-3/4 bg-DarkBlue p-10 flex flex-col items-center justify-evenly gap-5 rounded-lg text-white">
+        <img
+          className="w-[200px] h-[200px] rounded-[60%] object-center object-cover -mt-28 border-2 border-white"
+          src="../public/empresa_img.jpg"
+          alt="logo_empresa"
+        />
+        <h1 className="text-4xl font-bold">UVM</h1>
+        <div className="flex w-full">
+          <div className="p-3 rounded-lg flex flex-col gap-5 font-bold w-1/2">
+            <p>Direccion: </p>
+            <p>RIF: </p>
+            <p>Telefono: </p>
+            <p>Corrreo: </p>
+          </div>
+          <div className="bg-LightBlue p-3 rounded-lg flex flex-col gap-5 w-1/2 ">
+            <p>Valera</p>
+            <p>j-38483492</p>
+            <p>02726521976</p>
+            <p>uvm@gmail.com</p>
+          </div>
+        </div>
+      </div>
+      <ModalEmpresa/>
     </div>
-    )
+  );
 }
