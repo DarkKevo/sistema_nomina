@@ -24,7 +24,8 @@ export function MyDoc(data) {
     idEmpleados,
     nombres,
     telefono,
-  ] = ["", "", "", "", "", "", "", "", "", "", "", ""];
+    antiguedad,
+  ] = ["", "", "", "", "", "", "", "", "", "", "", "",""];
 
   if (data != "" && data !== undefined) {
     apellidos = data.apellidos;
@@ -36,10 +37,13 @@ export function MyDoc(data) {
     direccion = data.direccion;
     estado = data.estado;
     let fecha_n = new Date(data.fecha_nacimiento);
-    fecha_nacimiento = fecha_n.toISOString().slice(0, 10);
+    fecha_nacimiento = `${fecha_n.getDate()}-`+ `${fecha_n.getMonth() + 1}-`+`${fecha_n.getFullYear()}`;
     idEmpleados = data.idEmpleados;
     nombres = data.nombres;
     telefono = data.telefono;
+    let fa = new Date(data.antiguedad);
+    antiguedad = `${fa.getDate()}-`+ `${fa.getMonth() + 1}-`+`${fa.getFullYear()}`;
+
   }
 
   const styles = StyleSheet.create({
@@ -52,11 +56,28 @@ export function MyDoc(data) {
       paddingRight: "1cm",
       flexDirection: "row",
     },
+    logo: {
+      display: "flex",
+      width: "1.9cm",
+      height: "1.9cm",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "0.1cm",
+      border: "1px",
+      borderColor: "#FFFFFF",
+    },
+    head: {
+      height: "2cm",
+      width: "15.6cm",
+      flexDirection: "column",
+      textAlign: "center",
+      justifyContent: "center",
+      alignItems: "center"
+    },
     empresa: {
       display: "flex",
       fontSize: 12,
-      width: "6cm",
-      textAlign: "left",
+      textAlign: "center",
       color: "white",
       justifyContent: "flex-end",
       paddingBottom: "0.3cm",
@@ -64,8 +85,7 @@ export function MyDoc(data) {
     },
     titulo: {
       display: "flex",
-      width: "9.5cm",
-      textAlign: "right",
+      textAlign: "center",
       color: "white",
       justifyContent: "flex-end",
       paddingBottom: "0.3cm",
@@ -132,12 +152,15 @@ export function MyDoc(data) {
     <Document>
       <Page size="LETTER" style={styles.page}>
         <View style={styles.cabecera}>
+        <View style={styles.logo}></View>
+        <View style={styles.head}>
           <View style={styles.empresa}>
             <Text>{codigo_empresa}</Text>
           </View>
           <View style={styles.titulo}>
             <Text>INFORMACIÓN PERSONAL DEL EMPLEADO</Text>
           </View>
+        </View>
         </View>
         <View style={styles.content}>
           <View style={styles.fecha}>
@@ -186,6 +209,7 @@ export function MyDoc(data) {
           <Text><Text style={styles.negrita}>CORREO </Text>{correo}</Text>
           <View style={styles.sep}></View>
           <Text><Text style={styles.negrita}>ESTADO </Text>{estado}</Text>
+          <Text style={styles.txt2}><Text style={styles.negrita}>ANTIGÜEDAD </Text>{antiguedad}</Text>
           <View style={styles.sep}></View>
         </View>
       </Page>
