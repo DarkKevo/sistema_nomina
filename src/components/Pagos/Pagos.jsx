@@ -101,7 +101,7 @@ export default function Pagos() {
             {bancos.data && (
               <tbody>
                 {bancos.data.map((banco) => (
-                  <tr key={bancos.idbancos}>
+                  <tr key={banco.idbancos}>
                     <td className={tableStyle}>{banco.codigo}</td>
                     <td className={tableStyle}>{banco.nombre}</td>
                     <td className={tableStyle}>{banco.cuenta}</td>

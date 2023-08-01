@@ -1,16 +1,50 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
-import Swal from "sweetalert2";
+import { toast, Toaster } from "react-hot-toast";
 
-export default function ModalEmpresa() {
+export default function ModalEmpresa({ open, refetch }) {
   //estados para el fetch
   const [nombreEmpresa, setNombreEmpresa] = useState("");
   const [direccionEmpresa, setDireccionEmpresa] = useState("");
   const [Rif, setRif] = useState("");
   const [TelefonoEmpresa, setTelefonoEmpresa] = useState("");
   const [Correo, setCorreo] = useState("");
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(open);
+  
+  const mutation = useMutation(
+    (datos) => {
+      const res = fetch("http://localhost:3000/CrearEmpresa", {
+        method: "POST",
+        body: JSON.stringify(datos),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      });
+      return res;
+    },
+    {
+      onSuccess: (data) => {
+        toast.success("Empresa registrada");
+        refetch();
+        setOpenModal(false);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let data = {
+      rif: Rif,
+      nombre: nombreEmpresa,
+      direccion: direccionEmpresa,
+      telefono: TelefonoEmpresa,
+      correo: Correo,
+    };
+    mutation.mutate(data);
+  };
+
   return (
     <>
       <div
@@ -23,6 +57,7 @@ export default function ModalEmpresa() {
         >
           <form
             className="w-full flex flex-col items-center h-full justify-between gap-5"
+            onSubmit={(e) => handleSubmit(e)}
           >
             <h2 className="text-white text-left w-full border-b-2 border-white p-3">
               Ingrese los datos de la empresa
@@ -91,6 +126,7 @@ export default function ModalEmpresa() {
             </div>
           </form>
         </div>
+        <Toaster />
       </div>
     </>
   );

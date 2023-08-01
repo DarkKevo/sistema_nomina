@@ -79,7 +79,6 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
           telefono: telefono,
           codigo_cargo: parseInt(cargo),
           codigo_departamento: parseInt(departamento),
-          codigo_empresa: 1,
           numero_cuenta: cuenta,
           estado: estado,
           idEmpleados: idEmpleado,
