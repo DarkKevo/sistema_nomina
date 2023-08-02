@@ -10,6 +10,7 @@ import Empleados from "./components/Empleados/Empleados";
 import ValidateSesion from "./context/ValidateSesion";
 import RutasProtegidas from "./routes/RutasProtegidas";
 import Pagos from "./components/Pagos/Pagos";
+import Horas from "./components/Horas/Horas";
 import RutasIncio from "./routes/RutasInicio";
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="departamentos" element={<Departamentos />} />
           <Route path="empleados" element={<Empleados />} />
           <Route path="pagos" element={<Pagos />} />
+          <Route path="horas" element={<Horas />} />
         </Route>
       </Routes>
       </ValidateSesion>
