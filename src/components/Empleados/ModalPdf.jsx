@@ -11,7 +11,6 @@ let tittle = "Inf_Emp";
 
 export default function ModalPDF(idEmpleados) {
   const [openModal, setOpenModal] = useState(false);
-
   return (
     <div>
       <button
@@ -52,7 +51,7 @@ export default function ModalPDF(idEmpleados) {
           <PDFDownloadLink
             document={Constancia}
             fileName={`${tittle}_Constancia.pdf`}
-            className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded"
+            className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded text-center"
           >
               Constancia de trabajo
           </PDFDownloadLink>

@@ -6,6 +6,11 @@ export default function Inicio() {
   const empresa = useQuery("empresa", () =>
     fetch("http://localhost:3000/ListarEmpresa").then((res) => res.json())
   );
+
+  if(empresa.isLoading){
+    return <>cargando...</>
+  }
+
   return (
     <div className="w-full flex flex-col items-center justify-center font-poppins p-10">
       {empresa.data && !empresa.data.error ? (

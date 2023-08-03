@@ -100,18 +100,18 @@ export default function AddModalHoras({ isEdit, id, update }) {
             {empleados.data && (
                 <select
                   value={id_e}
-                  className="p-3 rounded w-1/4"
+                  className="p-3 rounded w-full"
                   name=""
                   id=""
                   onChange={(e) => setid_empleado(e.target.value)}
                 >
-                  <option value="none"> Seleccione el cargo</option>
+                  <option value="none"> Seleccione empleado</option>
                   {empleados.data.error
                     ? ""
                     : empleados.data &&
                       empleados.data.map((id_e) => (
                         <option key={id_e.id_empleado} value={id_e.idEmpleados}>
-                          {`${id_e.apellidos} ${id_e.nombres}`}
+                          {`${id_e.apellidos} ${id_e.nombres} C.I ${id_e.cedula}`}
                         </option>
                       ))}
                 </select>

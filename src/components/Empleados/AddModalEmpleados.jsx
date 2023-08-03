@@ -14,7 +14,6 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
   const [telefono, setTelefono] = useState("");
   const [cargo, setCargo] = useState("none");
   const [departamento, setDepartamento] = useState("none");
-  const [empresa, setEmpresa] = useState("");
   const [cuenta, setCuenta] = useState("");
   const [estado, setEstado] = useState("none");
   const [openModal, setOpenModal] = useState(false);
@@ -241,16 +240,6 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
                       </option>
                     ))}
               </select>
-
-              <input
-                className="p-3 rounded w-1/4"
-                type="text"
-                name=""
-                id=""
-                value={empresa}
-                onChange={(e) => setEmpresa(e.target.value)}
-                placeholder="Ingrese su empresa"
-              />
 
               <input
                 className="p-3 rounded w-1/4"
