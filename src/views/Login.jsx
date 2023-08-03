@@ -52,20 +52,20 @@ export default function Login() {
   };
   return (
     <div className="font-poppins bg-LightBlue min-h-screen flex  justify-center items-center">
-      <div className="w-1/2 p-28 min-h-screen">
-        <div className="bg-white p-10 rounded-lg bg-opacity-90">
-          <h1 className="font-bold text-xl my-5">Ver mis pagos</h1>
-          <div className="flex">
-            <div className="flex border-2 border-gray-400  rounded-lg">
+      <div className="w-1/2 p-16 min-h-screen grid content-center">
+        <div className="bg-DarkBlue border-2 border-white p-10 rounded-lg min-h-[80vh]">
+          <h1 className="font-bold text-xl my-5 text-white">Ver mis pagos</h1>
+          <div className="flex w-full justify-between">
+            <div className="w-full flex border-2 border-gray-400  rounded-lg">
               <label
                 htmlFor=""
-                className="w-full rounded-lg text-white p-3 bg-LightBlue"
+                className="w-1/2 rounded-lg text-white p-3 bg-LightBlue"
               >
                 Ingrese su cedula:{" "}
               </label>
               <input type="text" className="w-full p-2" />
             </div>
-            <input type="submit" value="Buscar" className=" ml-2 p-3 rounded border-2 border-slate-400 cursor-pointer hover:bg-LightBlue hover:text-white"/>
+            <input type="submit" value="Buscar" className="text-slate-400 ml-2 p-3 rounded border-2 border-slate-400 cursor-pointer hover:bg-LightBlue hover:text-white"/>
           </div>
         </div>
       </div>
