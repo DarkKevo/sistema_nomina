@@ -74,7 +74,7 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
   const bon = useQuery("bon", () =>
     fetch("http://localhost:3000/ListarBonificacion").then((res) => res.json())
   );
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = isEdit
@@ -110,13 +110,18 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
           estado: estado,
           pass: pass,
           codigo_deduccion: codigo_deduccion,
-          codigo_bonificaciones:codigo_bonificaciones,
+          codigo_bonificaciones: codigo_bonificaciones,
         };
 
     mutation.mutate(data);
   };
 
-  if (departamentos.isLoading || cargos.isLoading) {
+  if (
+    departamentos.isLoading ||
+    cargos.isLoading ||
+    deducciones.isLoading ||
+    bon.isLoading
+  ) {
     return <span>Cargando...</span>;
   }
 
@@ -156,7 +161,7 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
             <h2 className="text-white text-left w-full border-b-2 border-white p-3">
               Ingrese los datos del Empleado
             </h2>
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 ">
               <input
                 className="p-3 rounded w-1/4"
                 type="text"
@@ -272,21 +277,12 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
                 className="p-3 rounded w-1/4"
                 id=""
               >
-                <option value="none">seleccione</option>
+                <option value="none">seleccione estado</option>
                 <option value="activo">activo</option>
                 <option value="inactivo">inactivo</option>
               </select>
-              <input
-                className="p-3 rounded w-1/4"
-                type="text"
-                name=""
-                id=""
-                value={pass}
-                onChange={(e) => setpass(e.target.value)}
-                placeholder="Ingrese la contraseña del empleado"
-              />
-            </div>
-            <select
+
+              <select
                 value={codigo_deduccion}
                 className="p-3 rounded w-1/4"
                 onChange={(e) => setdeducciones(e.target.value)}
@@ -304,6 +300,7 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
                       </option>
                     ))}
               </select>
+
               <select
                 value={codigo_bonificaciones}
                 className="p-3 rounded w-1/4"
@@ -322,6 +319,8 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
                       </option>
                     ))}
               </select>
+            </div>
+
             <div className="w-full border-t-2 border-white p-3 flex justify-end gap-3">
               <input
                 className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded cursor-pointer"

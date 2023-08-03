@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import { toast, Toaster } from "react-hot-toast";
 
-export default function ModalEmpresa({ open, refetch }) {
+export default function ModalEmpresa({ open, refetch, isEdit }) {
   //estados para el fetch
   const [nombreEmpresa, setNombreEmpresa] = useState("");
   const [direccionEmpresa, setDireccionEmpresa] = useState("");
@@ -11,20 +11,25 @@ export default function ModalEmpresa({ open, refetch }) {
   const [TelefonoEmpresa, setTelefonoEmpresa] = useState("");
   const [Correo, setCorreo] = useState("");
   const [openModal, setOpenModal] = useState(open);
-  
+
   const mutation = useMutation(
     (datos) => {
-      const res = fetch("http://localhost:3000/CrearEmpresa", {
-        method: "POST",
-        body: JSON.stringify(datos),
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-      });
+      const res = fetch(
+        isEdit
+          ? "http://localhost:3000/ActualizaEmpresa"
+          : "http://localhost:3000/CrearEmpresa",
+        {
+          method: isEdit ? "PUT" : "POST",
+          body: JSON.stringify(datos),
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+        }
+      );
       return res;
     },
     {
       onSuccess: (data) => {
-        toast.success("Empresa registrada");
         refetch();
+        toast.success(isEdit ? "Datos editados!" : "Empresa registrada");
         setOpenModal(false);
       },
       onError: (err) => {
@@ -35,18 +40,35 @@ export default function ModalEmpresa({ open, refetch }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let data = {
-      rif: Rif,
-      nombre: nombreEmpresa,
-      direccion: direccionEmpresa,
-      telefono: TelefonoEmpresa,
-      correo: Correo,
-    };
+    let data = isEdit
+      ? {
+          idEmpresas: 1,
+          rif: Rif,
+          nombre: nombreEmpresa,
+          direccion: direccionEmpresa,
+          telefono: TelefonoEmpresa,
+          correo: Correo,
+        }
+      : {
+          rif: Rif,
+          nombre: nombreEmpresa,
+          direccion: direccionEmpresa,
+          telefono: TelefonoEmpresa,
+          correo: Correo,
+        };
     mutation.mutate(data);
   };
 
   return (
     <>
+      {isEdit && (
+        <button
+          className="self-end text-3xl "
+          onClick={() => setOpenModal(true)}
+        >
+          <FaRegEdit />
+        </button>
+      )}
       <div
         className={`${
           openModal ? "grid" : "hidden"
@@ -56,7 +78,7 @@ export default function ModalEmpresa({ open, refetch }) {
           className={`grid fixed bg-DarkBlue right-5 w-3/4 h-3/4 place-items-center z-10 rounded-lg`}
         >
           <form
-            className="w-full flex flex-col items-center h-full justify-between gap-5"
+            className="w-full flex flex-col items-center h-full justify-between gap-5 text-black"
             onSubmit={(e) => handleSubmit(e)}
           >
             <h2 className="text-white text-left w-full border-b-2 border-white p-3">
@@ -126,8 +148,8 @@ export default function ModalEmpresa({ open, refetch }) {
             </div>
           </form>
         </div>
-        <Toaster />
       </div>
+      <Toaster />
     </>
   );
 }

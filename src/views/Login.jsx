@@ -53,7 +53,7 @@ export default function Login() {
   return (
     <div className="font-poppins bg-LightBlue min-h-screen flex  justify-center items-center">
       <div className="w-1/2 p-16 min-h-screen grid content-center">
-        <div className="bg-DarkBlue border-2 border-white p-10 rounded-lg min-h-[80vh]">
+        <div className="bg-DarkBlue  p-10 rounded-lg min-h-[80vh]">
           <h1 className="font-bold text-xl my-5 text-white">Ver mis pagos</h1>
           <div className="flex w-full justify-between">
             <div className="w-full flex border-2 border-gray-400  rounded-lg">

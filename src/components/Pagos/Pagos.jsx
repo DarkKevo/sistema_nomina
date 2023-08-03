@@ -87,8 +87,8 @@ export default function Pagos() {
     return <span>Cargando...</span>;
   }
   return (
-    <div className="w-full py-10 flex flex-col items-center justify-start gap-10">
-      <div>
+    <div className="w-full py-10 flex flex-col items-end justify-start gap-10">
+      <div className="w-11/12 flex flex-col items-center gap-10">
         <nav className="w-3/4 rounded-md flex justify-between">
           <h1 className="flex gap-2 items-center text-sm font-bold">
             <FaUserTie className="text-2xl" /> Bancos en la empresa
@@ -160,7 +160,7 @@ export default function Pagos() {
         )}
       </div>
 
-      <div className="">
+      <div className="w-11/12 flex flex-col items-center gap-10">
         <nav className="w-3/4 rounded-md flex justify-between">
           <h1 className="flex gap-2 items-center text-sm font-bold">
             <FaUserTie className="text-2xl" /> archivos para generar pagos
@@ -231,7 +231,7 @@ export default function Pagos() {
                         <button>
                           <FaRegTrashAlt onClick={()=>handleDeleteFile(file.idfile)} />
                         </button>
-                        <ModalTXT/>
+                        <ModalTXT id={file.idfile}/>
                       </div>
                     </td>
                   </tr>
