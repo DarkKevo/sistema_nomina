@@ -16,6 +16,10 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
   const [departamento, setDepartamento] = useState("none");
   const [cuenta, setCuenta] = useState("");
   const [estado, setEstado] = useState("none");
+  const [pass, setpass] = useState("");
+  const [codigo_bonificaciones, setbonificaciones] = useState("none");
+  const [codigo_deduccion, setdeducciones] = useState("none");
+
   const [openModal, setOpenModal] = useState(false);
 
   const mutation = useMutation(
@@ -64,7 +68,13 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
   const departamentos = useQuery("departamentos", () =>
     fetch("http://localhost:3000/ListarDepartamento").then((res) => res.json())
   );
-
+  const deducciones = useQuery("deducciones", () =>
+    fetch("http://localhost:3000/ListarDeducciones").then((res) => res.json())
+  );
+  const bon = useQuery("bon", () =>
+    fetch("http://localhost:3000/ListarBonificacion").then((res) => res.json())
+  );
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = isEdit
@@ -81,6 +91,9 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
           numero_cuenta: cuenta,
           estado: estado,
           idEmpleados: idEmpleado,
+          pass: pass,
+          codigo_deduccion: codigo_deduccion,
+          codigo_bonificaciones: codigo_bonificaciones,
         }
       : {
           cedula: cedula,
@@ -95,6 +108,9 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
           codigo_empresa: 1,
           numero_cuenta: cuenta,
           estado: estado,
+          pass: pass,
+          codigo_deduccion: codigo_deduccion,
+          codigo_bonificaciones:codigo_bonificaciones,
         };
 
     mutation.mutate(data);
@@ -260,7 +276,52 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
                 <option value="activo">activo</option>
                 <option value="inactivo">inactivo</option>
               </select>
+              <input
+                className="p-3 rounded w-1/4"
+                type="text"
+                name=""
+                id=""
+                value={pass}
+                onChange={(e) => setpass(e.target.value)}
+                placeholder="Ingrese la contraseña del empleado"
+              />
             </div>
+            <select
+                value={codigo_deduccion}
+                className="p-3 rounded w-1/4"
+                onChange={(e) => setdeducciones(e.target.value)}
+              >
+                <option value="none"> Seleccione la deducción</option>
+                {deducciones.data.error
+                  ? ""
+                  : deducciones.data &&
+                    deducciones.data.map((deduccion) => (
+                      <option
+                        key={deduccion.iddeducciones}
+                        value={deduccion.iddeducciones}
+                      >
+                        {deduccion.descripcion_deduccion}
+                      </option>
+                    ))}
+              </select>
+              <select
+                value={codigo_bonificaciones}
+                className="p-3 rounded w-1/4"
+                onChange={(e) => setbonificaciones(e.target.value)}
+              >
+                <option value="none"> Seleccione la bonificación</option>
+                {bon.data.error
+                  ? ""
+                  : bon.data &&
+                    bon.data.map((bonificacion) => (
+                      <option
+                        key={bonificacion.idbonificaciones}
+                        value={bonificacion.idbonificaciones}
+                      >
+                        {bonificacion.descripcion_bonificacion}
+                      </option>
+                    ))}
+              </select>
             <div className="w-full border-t-2 border-white p-3 flex justify-end gap-3">
               <input
                 className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded cursor-pointer"
