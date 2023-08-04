@@ -3,16 +3,19 @@ import ModalTXT from "./ModalTXT";
 import { toast, Toaster } from "react-hot-toast";
 import ModalConfiguracion from "./ModalConfiguracion";
 import { FaRegTrashAlt, FaUserTie } from "react-icons/fa";
+import { sesion } from "../../context/ValidateSesion";
+import { useContext } from "react";
 
 export default function Files() {
+  const { setLoader } = useContext(sesion);
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
 
   const files = useQuery("files", () =>
     fetch("http://localhost:3000/Listarsetup").then((res) => res.json())
   );
   const bancos = useQuery("bancos", () =>
-  fetch("http://localhost:3000/ListarBanco").then((res) => res.json())
-);
+    fetch("http://localhost:3000/ListarBanco").then((res) => res.json())
+  );
   const mutationFile = useMutation(
     (datos) => {
       const res = fetch("http://localhost:3000/EliminarSetup", {
@@ -40,7 +43,11 @@ export default function Files() {
   };
 
   if (files.isLoading || bancos.isLoading) {
-    return <span>Cargando...</span>;
+    setLoader(true);
+    return <></>;
+  }
+  if (files.isSuccess || bancos.isSuccess) {
+    setLoader(false);
   }
   return (
     <>
@@ -54,7 +61,7 @@ export default function Files() {
         {files.data.error ? (
           <>No hay</>
         ) : (
-          <table className=" border-collapse border-2">
+          <table className="w-3/4 border-collapse border-2">
             <thead>
               <tr>
                 <th

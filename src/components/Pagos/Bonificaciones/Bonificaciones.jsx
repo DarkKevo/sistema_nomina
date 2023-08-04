@@ -1,21 +1,23 @@
 import { useQuery, useMutation } from "react-query";
 import { FaRegTrashAlt, FaUserTie } from "react-icons/fa";
-import AddModalPagos from "./AddModalPagos";
 import Swal from "sweetalert2";
-import { sesion } from "../../context/ValidateSesion";
+import {sesion} from '../../../context/ValidateSesion'
 import { useContext } from "react";
+import AddModalBonificaciones from "./AddModalBonificaciones";
 
-export default function Bancos() {
-  const { setLoader } = useContext(sesion);
+export default function Bonificaciones() {
+
+    const {setLoader} = useContext(sesion)
+
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
 
-  const bancos = useQuery("bancos", () =>
-    fetch("http://localhost:3000/ListarBanco").then((res) => res.json())
+  const bonificaciones = useQuery("bonificaciones", () =>
+    fetch("http://localhost:3000/ListarBonificacion").then((res) => res.json())
   );
 
-  const mutationBanco = useMutation(
+  const mutation = useMutation(
     (data) => {
-      const res = fetch("http://localhost:3000/EliminarBancos", {
+      const res = fetch("http://localhost:3000/EliminarBonificacion", {
         method: "DELETE",
         body: JSON.stringify(data),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -34,11 +36,11 @@ export default function Bancos() {
           });
         } else {
           Swal.fire({
-            title: "Cuenta Eliminada!",
+            title: "Bonificación Eliminada!",
             icon: "success",
             timer: 3000,
           });
-          bancos.refetch();
+          bonificaciones.refetch();
         }
       },
       onError: (error) => {
@@ -50,53 +52,48 @@ export default function Bancos() {
   const handleDelete = (e, id) => {
     e.preventDefault();
     const data = {
-      idbancos: id,
+        idbonificaciones: id,
     };
-    mutationBanco.mutate(data);
+    mutation.mutate(data);
   };
 
-  if (bancos.isLoading) {
-    setLoader(true);
-    return <></>;
+  if(bonificaciones.isLoading){
+    setLoader(true)
+    return(<></>)
   }
-  if (bancos.isSuccess) {
-    setLoader(false);
+  if(bonificaciones.isSuccess){
+    setLoader(false)
   }
+
   return (
     <>
       <div className="w-11/12 flex flex-col items-center gap-10">
         <nav className="w-3/4 rounded-md flex justify-between">
           <h1 className="flex gap-2 items-center text-sm font-bold">
-            <FaUserTie className="text-2xl" /> Bancos en la empresa
+            <FaUserTie className="text-2xl" /> Bonificaciones en la empresa
           </h1>
-          <AddModalPagos isEdit={false} update={bancos.refetch} />
+          <AddModalBonificaciones isEdit={false} update={bonificaciones.refetch} />
         </nav>
-        {bancos.data.error ? (
+        {bonificaciones.data.error ? (
           <>No hay</>
         ) : (
           <table className="w-3/4 border-collapse border-2">
             <thead>
               <tr>
+                
                 <th
                   className={
                     tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
                   }
                 >
-                  CODIGO
+                  Descripcion
                 </th>
                 <th
                   className={
                     tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
                   }
                 >
-                  NOMBRE
-                </th>
-                <th
-                  className={
-                    tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
-                  }
-                >
-                  NUMERO DE CUENTA
+                  Monto
                 </th>
                 <th
                   className={
@@ -107,24 +104,23 @@ export default function Bancos() {
                 </th>
               </tr>
             </thead>
-            {bancos.data && (
+            {bonificaciones.data && (
               <tbody>
-                {bancos.data.map((banco) => (
-                  <tr key={banco.idbancos}>
-                    <td className={tableStyle}>{banco.codigo}</td>
-                    <td className={tableStyle}>{banco.nombre}</td>
-                    <td className={tableStyle}>{banco.cuenta}</td>
+                {bonificaciones.data.map((bonificacion) => (
+                  <tr key={bonificacion.idbonificaciones}>
+                    <td className={tableStyle}>{bonificacion.descripcion_bonificacion}</td>
+                    <td className={tableStyle}>{bonificacion.monto_bonificacion}</td>
                     <td className="border-b-2">
                       <div className="flex items-center justify-center text-2xl gap-3">
                         <button>
                           <FaRegTrashAlt
-                            onClick={(e) => handleDelete(e, banco.idbancos)}
+                            onClick={(e) => handleDelete(e, bonificacion.idbonificaciones)}
                           />
                         </button>
-                        <AddModalPagos
-                          id={banco.idbancos}
+                        <AddModalBonificaciones
+                          id={bonificacion.idbonificaciones}
                           isEdit={true}
-                          update={bancos.refetch}
+                          update={bonificaciones.refetch}
                         />
                       </div>
                     </td>

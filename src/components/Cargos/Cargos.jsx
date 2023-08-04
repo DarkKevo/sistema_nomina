@@ -3,8 +3,11 @@ import { useMutation, useQuery } from "react-query";
 import { FaRegTrashAlt, FaUserTie, FaPlus } from "react-icons/fa";
 import AddModalCargos from "./AddModalCargos";
 import Swal from "sweetalert2";
+import {sesion} from '../../context/ValidateSesion'
 
 export default function Cargos() {
+
+  const {setLoader} = useContext(sesion)
 
   const mutation = useMutation(
     (data) => {
@@ -52,7 +55,11 @@ export default function Cargos() {
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
 
   if (cargos.isLoading) {
-    return <span>Cargando...</span>;
+    setLoader(true);
+    return (<></>);
+  }
+  if(cargos.isSuccess){
+    setLoader(false)
   }
   return (
     <div className="w-full py-10 flex flex-col items-center justify-start gap-10">

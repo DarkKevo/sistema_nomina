@@ -9,8 +9,10 @@ export default function ValidateSesion({children}){
         return '0';
     });
 
+    const [loader, setLoader] = useState(false)
+
     return(
-        <sesion.Provider value={{token, setToken}}>
+        <sesion.Provider value={{token, setToken, setLoader, loader}}>
             {children}
         </sesion.Provider>
     )

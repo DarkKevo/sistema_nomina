@@ -2,8 +2,10 @@ import { useState, useContext } from "react";
 import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { sesion } from "../../context/ValidateSesion";
 
 export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
+  const { setLoader } = useContext(sesion);
   //estados para el fetch
   const [cedula, setCedula] = useState("");
   const [nombres, setNombres] = useState("");
@@ -122,9 +124,17 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
     deducciones.isLoading ||
     bon.isLoading
   ) {
-    return <span>Cargando...</span>;
+    setLoader(true);
+    return <></>;
   }
-
+  if (
+    departamentos.isSuccess ||
+    cargos.isSuccess ||
+    deducciones.isSuccess ||
+    bon.isSuccess
+  ) {
+    setLoader(false);
+  }
   return (
     <>
       <button

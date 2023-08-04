@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from "react-icons/fa";
 import { useQuery, useMutation } from "react-query";
 import AddModalEmpleados from "./AddModalEmpleados";
 import ModalPDF from "./ModalPdf";
 import Swal from "sweetalert2";
+import {sesion} from '../../context/ValidateSesion'
 
 export default function Empleados() {
+  const {setLoader} = useContext(sesion)
   const empleados = useQuery("empleados", () =>
     fetch("http://localhost:3000/ListarEmpleados").then((res) => res.json()),{
       refetchOnWindowFocus: false,
@@ -55,9 +57,14 @@ export default function Empleados() {
 
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-2";
 
+ 
   if (empleados.isLoading||empleados.isIdle) {
-    return <span>Cargando...</span>;
-  }
+    setLoader(true);
+      return (<></>);
+    }
+    if(empleados.isSuccess){
+      setLoader(false)
+    }
 
   const fecha_a = (antiguedad) =>{
     const f = new Date(antiguedad)

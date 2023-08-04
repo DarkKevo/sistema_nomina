@@ -75,7 +75,7 @@ export default function ModalEmpresa({ open, refetch, isEdit }) {
         } fixed place-items-center top-0 left-0 w-full h-screen bg-black bg-opacity-80 z-10`}
       >
         <div
-          className={`grid fixed bg-DarkBlue right-5 w-3/4 h-3/4 place-items-center z-10 rounded-lg`}
+          className={`grid bg-DarkBlue right-5 w-1/2 h-3/4 place-items-center z-10 rounded-lg`}
         >
           <form
             className="w-full flex flex-col items-center h-full justify-between gap-5 text-black"

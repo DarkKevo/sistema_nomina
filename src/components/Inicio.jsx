@@ -2,14 +2,22 @@ import { useContext } from "react";
 import { useQuery } from "react-query";
 import ModalEmpresa from "./ModalEmpresa";
 import { FaRegEdit } from "react-icons/fa";
+import { sesion } from "../context/ValidateSesion";
+
 export default function Inicio() {
+
+  const {setLoader} = useContext(sesion);
 
   const empresa = useQuery("empresa", () =>
     fetch("http://localhost:3000/ListarEmpresa").then((res) => res.json())
   );
 
   if(empresa.isLoading){
-    return <>cargando...</>
+    setLoader(true);
+    return <></>
+  }
+  if(empresa.isSuccess){
+    setLoader(false)
   }
 
   return (

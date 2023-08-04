@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { FaRegTrashAlt, FaCity, FaPlus } from "react-icons/fa";
 import { useMutation, useQuery } from "react-query";
 import AddModalDepartamento from "./AddModalDepartamentos";
 import { toast, Toaster } from "react-hot-toast";
+import {sesion} from '../../context/ValidateSesion'
 
 export default function Departamentos() {
+
+  const {setLoader} = useContext(sesion)
+
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
 
   const mutation = useMutation(
@@ -44,7 +48,11 @@ export default function Departamentos() {
   };
 
   if (departamentos.isLoading) {
-    return <span>Cargando...</span>;
+    setLoader(true);
+    return (<></>);
+  }
+  if(departamentos.isSuccess){
+    setLoader(false)
   }
 
   return (

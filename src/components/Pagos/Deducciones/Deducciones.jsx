@@ -1,10 +1,13 @@
 import { useQuery, useMutation } from "react-query";
+import { useContext } from "react";
 import { FaRegTrashAlt, FaUserTie } from "react-icons/fa";
 import Swal from "sweetalert2";
 import AddModalDeducciones from "./AddModalDeduccion";
+import {sesion} from '../../../context/ValidateSesion'
 
 export default function Deducciones() {
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
+    const {setLoader} = useContext(sesion)
 
   const deducciones = useQuery("deducciones", () =>
     fetch("http://localhost:3000/ListarDeducciones").then((res) => res.json())
@@ -52,9 +55,13 @@ export default function Deducciones() {
     mutation.mutate(data);
   };
 
-  if(deducciones.isLoading){
-    return(<>cargando...</>)
-  }
+  if (deducciones.isLoading) {
+      setLoader(true);
+      return (<></>);
+    }
+    if(deducciones.isSuccess){
+      setLoader(false)
+    }
 
   return (
     <>
@@ -68,7 +75,7 @@ export default function Deducciones() {
         {deducciones.data.error ? (
           <>No hay</>
         ) : (
-          <table className=" border-collapse border-2">
+          <table className="w-3/4 border-collapse border-2">
             <thead>
               <tr>
                 
