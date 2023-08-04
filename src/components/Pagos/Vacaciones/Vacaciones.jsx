@@ -1,12 +1,12 @@
 import { useQuery, useMutation } from "react-query";
 import { FaRegTrashAlt, FaUserTie } from "react-icons/fa";
 import AddModalVacaciones from "./AddModalVacacion";
-import {sesion} from '../../../context/ValidateSesion'
+import { sesion } from "../../../context/ValidateSesion";
 import { useContext } from "react";
 
 export default function Vacaciones() {
 
-  const {setLoader} = useContext(sesion)
+  const { setLoader } = useContext(sesion);
 
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
 
@@ -14,12 +14,12 @@ export default function Vacaciones() {
     fetch("http://localhost:3000/ListarVacaciones").then((res) => res.json())
   );
 
-  if(vacaciones.isLoading){
+  if (vacaciones.isLoading) {
     setLoader(true);
-    return(<></>)
+    return <></>;
   }
-  if(vacaciones.isSuccess){
-    setLoader(false)
+  if (vacaciones.isSuccess) {
+    setLoader(false);
   }
 
   return (
@@ -36,7 +36,6 @@ export default function Vacaciones() {
           <table className="w-3/4 border-collapse border-2">
             <thead>
               <tr>
-
                 <th
                   className={
                     tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
@@ -80,11 +79,13 @@ export default function Vacaciones() {
                   <tr key={empleado.idvac}>
                     <td className={tableStyle}>{empleado.nombres}</td>
                     <td className={tableStyle}>{empleado.apellidos}</td>
-                    <td className={tableStyle}>{empleado.vacaciones_acumuladas}</td>
+                    <td className={tableStyle}>
+                      {empleado.vacaciones_acumuladas}
+                    </td>
                     <td className={tableStyle}>{empleado.vacaciones_usadas}</td>
                     <td className="border-b-2">
                       <div className="flex items-center justify-center text-2xl gap-3">
-                        <AddModalVacaciones/>
+                        <AddModalVacaciones id={empleado.id_empleado} />
                       </div>
                     </td>
                   </tr>

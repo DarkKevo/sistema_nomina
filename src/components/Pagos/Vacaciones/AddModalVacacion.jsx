@@ -1,9 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
+import Swal from "sweetalert2";
 
-export default function AddModalVacaciones() {
+export default function AddModalVacaciones(id) {
   const [openModal, setOpenModal] = useState(false);
 
   const [dias, setDias] = useState("");
+
+  const mutation = useMutation(
+    (datos) => {
+      const res = fetch("http://localhost:3000/UsarVacaciones", {
+        method: "POST",
+        body: JSON.stringify(datos),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      });
+
+      return res;
+    },
+    {
+      onSuccess: (data) => {
+        if (data.ok !== true) {
+          Swal.fire({
+            title: "Dias insuficientes",
+            icon: "error",
+            timer: 3000,
+            showConfirmButton: false,
+          });
+        } else {
+          Swal.fire({
+            title: "Vacaciones usadas Exitosamente",
+            icon: "success",
+            timer: 3000,
+          });
+        }
+        setOpenModal(false);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const datos = {
+      usar: dias,
+      id_empleado: id.id,
+    };
+    console.log(datos);
+    mutation.mutate(datos);
+  };
+
   return (
     <>
       <button
