@@ -10,6 +10,7 @@ export default function ModalEmpresa({ open, refetch, isEdit }) {
   const [Rif, setRif] = useState("");
   const [TelefonoEmpresa, setTelefonoEmpresa] = useState("");
   const [Correo, setCorreo] = useState("");
+  const [img, setImg] = useState(null)
   const [openModal, setOpenModal] = useState(open);
 
   const mutation = useMutation(
@@ -20,8 +21,7 @@ export default function ModalEmpresa({ open, refetch, isEdit }) {
           : "http://localhost:3000/CrearEmpresa",
         {
           method: isEdit ? "PUT" : "POST",
-          body: JSON.stringify(datos),
-          headers: { "Content-type": "application/json; charset=UTF-8" },
+          body: datos,
         }
       );
       return res;
@@ -40,23 +40,25 @@ export default function ModalEmpresa({ open, refetch, isEdit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let data = isEdit
-      ? {
-          idEmpresas: 1,
-          rif: Rif,
-          nombre: nombreEmpresa,
-          direccion: direccionEmpresa,
-          telefono: TelefonoEmpresa,
-          correo: Correo,
-        }
-      : {
-          rif: Rif,
-          nombre: nombreEmpresa,
-          direccion: direccionEmpresa,
-          telefono: TelefonoEmpresa,
-          correo: Correo,
-        };
-    mutation.mutate(data);
+
+    const formData = new FormData();
+    if(isEdit){
+      formData.append("idEmpresas", 1);
+      formData.append("rif", Rif);
+      formData.append("nombre", nombreEmpresa);
+      formData.append("direccion", direccionEmpresa);
+      formData.append("telefono", TelefonoEmpresa);
+      formData.append("correo", Correo);
+      formData.append("imageURL", img);
+    }else{
+      formData.append("rif", Rif);
+      formData.append("nombre", nombreEmpresa);
+      formData.append("direccion", direccionEmpresa);
+      formData.append("telefono", TelefonoEmpresa);
+      formData.append("correo", Correo);
+      formData.append("imageURL", img);
+    }
+    mutation.mutate(formData);
   };
 
   return (
@@ -130,7 +132,7 @@ export default function ModalEmpresa({ open, refetch, isEdit }) {
                 onChange={(e) => setCorreo(e.target.value)}
                 placeholder="Ingrese el correo de la empresa"
               />
-            </div>
+              </div>
             <div className="w-full border-t-2 border-white p-3 flex justify-end gap-3">
               <input
                 className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded"

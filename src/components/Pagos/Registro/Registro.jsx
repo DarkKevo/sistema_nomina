@@ -13,6 +13,9 @@ export default function Registro() {
     fetch("http://localhost:3000/ListarPago").then((res) => res.json())
   );
 
+  const pagos = useQuery('pagos', () =>
+  fetch("http://localhost:3000/GenerarPagos").then((res) => res.json()))
+
   if (registros.isLoading) {
     setLoader(true);
     return <></>;
@@ -28,7 +31,7 @@ export default function Registro() {
           <h1 className="flex gap-2 items-center text-sm font-bold">
             <FaUserTie className="text-2xl" /> Registro de los pagos a empleados
           </h1>
-          <button className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white">
+          <button onClick={()=>{pagos.refetch(); registros.refetch()}} className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white">
             Calcular Pagos
           </button>
         </nav>

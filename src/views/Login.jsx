@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -12,7 +12,11 @@ export default function Login() {
   const [pass, setPass] = useState("");
   const navigate = useNavigate();
 
+  const [cedula, setCedula] = useState("");
+  const [pagos, setPagos] = useState(null);
   const { setToken } = useContext(sesion);
+
+  useEffect(() => {}, [pagos]);
 
   const mutation = useMutation(
     (data) => {
@@ -50,12 +54,47 @@ export default function Login() {
     };
     mutation.mutate(data);
   };
+
+  const mutationPago = useMutation(
+    (datos) => {
+      const res = fetch("http://localhost:3000/FiltrarPagos", {
+        method: "POST",
+        body: JSON.stringify(datos),
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+      }).then((x) => x.json());
+      return res;
+    },
+    {
+      onSuccess: (data) => {
+        console.log(data)
+        if (data) {
+          setPagos(data);
+          console.log(data)
+        }
+      },
+    }
+  );
+
+  const buscarPagos = (e) => {
+    e.preventDefault();
+    const data = {
+      cedula: `${cedula}`,
+    };
+    console.log(data);
+    mutationPago.mutate(data);
+  };
+
   return (
     <div className="font-poppins bg-LightBlue min-h-screen flex  justify-center items-center">
       <div className="w-1/2 p-16 min-h-screen grid content-center">
         <div className="bg-DarkBlue  p-10 rounded-lg min-h-[80vh]">
           <h1 className="font-bold text-xl my-5 text-white">Ver mis pagos</h1>
-          <div className="flex w-full justify-between">
+          <form
+            className="flex w-full justify-between"
+            onSubmit={(e) => {
+              buscarPagos(e);
+            }}
+          >
             <div className="w-full flex border-2 border-gray-400  rounded-lg">
               <label
                 htmlFor=""
@@ -63,10 +102,30 @@ export default function Login() {
               >
                 Ingrese su cedula:{" "}
               </label>
-              <input type="text" className="w-full p-2" />
+              <input
+                type="text"
+                className="w-full p-2"
+                value={cedula}
+                onChange={(e) => setCedula(e.target.value)}
+              />
             </div>
-            <input type="submit" value="Buscar" className="text-slate-400 ml-2 p-3 rounded border-2 border-slate-400 cursor-pointer hover:bg-LightBlue hover:text-white"/>
-          </div>
+            <input
+              type="submit"
+              value="enviar"
+              className="text-slate-400 ml-2 p-3 rounded border-2 border-slate-400 cursor-pointer hover:bg-LightBlue hover:text-white"
+            />
+          </form>
+          {pagos && <div>{pagos.map((pago)=>(
+            <div className="bg-white m-3 p-3 rounded-lg">
+              <p>Nombre: {pago.nombre}</p>
+              <p>Fecha: {pago.fecha}</p>
+              <p>Cuenta: {pago.cuentn}</p>
+              <p>Descando: {pago.pagoDiasDescanso}</p>
+              <p>Extras: {pago.pagoDiasExtras}</p>
+              <p>Laborales: {pago.pagoDiasLaborales}</p>
+              <p>Total: {pago.pagoTotal}</p>
+            </div>
+          ))}</div>}
         </div>
       </div>
       <div className="w-1/2 flex flex-col  justify-center items-center">

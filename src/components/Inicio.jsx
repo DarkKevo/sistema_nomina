@@ -27,7 +27,7 @@ export default function Inicio() {
           <ModalEmpresa isEdit={true} refetch={empresa.refetch} open={false}/>
           <img
             className="w-[200px] h-[200px] rounded-[60%] object-center object-cover -mt-28 border-2 border-white"
-            src="../public/empresa_img.jpg"
+            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
             alt="logo_empresa"
           />
           <h1 className="text-4xl font-bold">{empresa.data[0].nombre}</h1>
