@@ -10,13 +10,14 @@ export default function ModalTXT({ id }) {
   const mutation = useMutation(
     (datos) => {
       const res = fetch("http://localhost:3000/descargartxt", {
-        method: "GET",
+        method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
-      }).then((respons) => respons.text());
-      return res;
+        body: JSON.stringify(datos),
+      });
+      return res.then((respons) => respons.text());
     },
     {
       onSuccess: (data) => {
