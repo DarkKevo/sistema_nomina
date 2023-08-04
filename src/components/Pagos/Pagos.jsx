@@ -3,6 +3,7 @@ import Files from "./Files";
 import Deducciones from "./Deducciones/Deducciones";
 import Vacaciones from "./Vacaciones/Vacaciones";
 import Bonificaciones from "./Bonificaciones/Bonificaciones";
+import Registro from './Registro/Registro'
 
 export default function Pagos() {
   return (
@@ -12,6 +13,7 @@ export default function Pagos() {
       <Deducciones />
       <Vacaciones/>
       <Bonificaciones/>
+      <Registro />
     </div>
   );
 }
