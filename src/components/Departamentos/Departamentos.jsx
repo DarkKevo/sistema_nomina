@@ -3,11 +3,11 @@ import { FaRegTrashAlt, FaCity, FaPlus } from "react-icons/fa";
 import { useMutation, useQuery } from "react-query";
 import AddModalDepartamento from "./AddModalDepartamentos";
 import { toast, Toaster } from "react-hot-toast";
-import {sesion} from '../../context/ValidateSesion'
+import { sesion } from "../../context/ValidateSesion";
+import Swal from "sweetalert2";
 
 export default function Departamentos() {
-
-  const {setLoader} = useContext(sesion)
+  const { setLoader } = useContext(sesion);
 
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
 
@@ -23,9 +23,9 @@ export default function Departamentos() {
     {
       onSuccess: (data) => {
         if (data.ok !== true) {
-          toast("error al eliminar el departamento");
+          toast.error("error al eliminar el departamento");
         } else {
-          toast("Eliminado correctamente");
+          toast.success("Eliminado correctamente");
           departamentos.refetch();
         }
       },
@@ -40,19 +40,28 @@ export default function Departamentos() {
   );
 
   const handleDelete = (id) => {
-    const data = {
-      iddepartamento: id,
-    };
-    console.log(data);
-    mutation.mutate(data);
+    Swal.fire({
+      text: "¿Eliminar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((resultado) => {
+      if (resultado.value) {
+        const data = {
+          iddepartamento: id,
+        };
+        mutation.mutate(data);
+      }
+    });
   };
 
   if (departamentos.isLoading) {
     setLoader(true);
-    return (<></>);
+    return <></>;
   }
-  if(departamentos.isSuccess){
-    setLoader(false)
+  if (departamentos.isSuccess) {
+    setLoader(false);
   }
 
   return (
@@ -89,28 +98,29 @@ export default function Departamentos() {
           </thead>
 
           <tbody>
-            {departamentos.data && (
-              departamentos.data.map((departamento)=>(
+            {departamentos.data &&
+              departamentos.data.map((departamento) => (
                 <tr key={departamento.iddepartamentos}>
-                <td className={tableStyle}>{departamento.iddepartamentos}</td>
-                <td className={tableStyle}>{departamento.departamento}</td>
-                <td className="border-b-2">
-                  <div className="flex items-center justify-center text-2xl gap-3">
-                    <button
-                      onClick={() => handleDelete(departamento.iddepartamentos)}
-                    >
-                      <FaRegTrashAlt />
-                    </button>
-                    <AddModalDepartamento
-                      isEdit={true}
-                      id={departamento.iddepartamentos}
-                      update={departamentos.refetch}
-                    />
-                  </div>
-                </td>
-              </tr>
-              ))
-            )}
+                  <td className={tableStyle}>{departamento.iddepartamentos}</td>
+                  <td className={tableStyle}>{departamento.departamento}</td>
+                  <td className="border-b-2">
+                    <div className="flex items-center justify-center text-2xl gap-3">
+                      <button
+                        onClick={() =>
+                          handleDelete(departamento.iddepartamentos)
+                        }
+                      >
+                        <FaRegTrashAlt />
+                      </button>
+                      <AddModalDepartamento
+                        isEdit={true}
+                        id={departamento.iddepartamentos}
+                        update={departamentos.refetch}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       )}

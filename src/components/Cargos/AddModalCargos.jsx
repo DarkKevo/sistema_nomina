@@ -3,10 +3,10 @@ import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalCargos({ isEdit, id, update }) {
+export default function AddModalCargos({ isEdit, id, update,cargoData }) {
   //estados para el fetch
-  const [nombreCargo, setNombreCargo] = useState("");
-  const [valorSalario, setValorSalario] = useState("");
+  const [nombreCargo, setNombreCargo] = useState(isEdit ? cargoData.cargo: "");
+  const [valorSalario, setValorSalario] = useState(isEdit ?  cargoData.salario:'');
   const [openModal, setOpenModal] = useState(false);
 
   const mutation = useMutation(

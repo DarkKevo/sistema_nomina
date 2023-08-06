@@ -3,11 +3,11 @@ import { useContext } from "react";
 import { FaRegTrashAlt, FaUserTie } from "react-icons/fa";
 import Swal from "sweetalert2";
 import AddModalDeducciones from "./AddModalDeduccion";
-import {sesion} from '../../../context/ValidateSesion'
+import { sesion } from "../../../context/ValidateSesion";
 
 export default function Deducciones() {
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
-    const {setLoader} = useContext(sesion)
+  const { setLoader } = useContext(sesion);
 
   const deducciones = useQuery("deducciones", () =>
     fetch("http://localhost:3000/ListarDeducciones").then((res) => res.json())
@@ -24,7 +24,6 @@ export default function Deducciones() {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
         if (data.ok !== true) {
           Swal.fire({
             title: "Datos incorrectos",
@@ -49,19 +48,29 @@ export default function Deducciones() {
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    const data = {
-        iddeducciones: id,
-    };
-    mutation.mutate(data);
+    Swal.fire({
+      text: "¿Eliminar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((resultado) => {
+      if (resultado.value) {
+        const data = {
+          iddeducciones: id,
+        };
+        mutation.mutate(data);
+      }
+    });
   };
 
   if (deducciones.isLoading) {
-      setLoader(true);
-      return (<></>);
-    }
-    if(deducciones.isSuccess){
-      setLoader(false)
-    }
+    setLoader(true);
+    return <></>;
+  }
+  if (deducciones.isSuccess) {
+    setLoader(false);
+  }
 
   return (
     <>
@@ -78,7 +87,6 @@ export default function Deducciones() {
           <table className="w-3/4 border-collapse border-2">
             <thead>
               <tr>
-                
                 <th
                   className={
                     tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
@@ -106,19 +114,24 @@ export default function Deducciones() {
               <tbody>
                 {deducciones.data.map((deduccion) => (
                   <tr key={deduccion.iddeducciones}>
-                    <td className={tableStyle}>{deduccion.descripcion_deduccion}</td>
+                    <td className={tableStyle}>
+                      {deduccion.descripcion_deduccion}
+                    </td>
                     <td className={tableStyle}>{deduccion.monto_deduccion}</td>
                     <td className="border-b-2">
                       <div className="flex items-center justify-center text-2xl gap-3">
                         <button>
                           <FaRegTrashAlt
-                            onClick={(e) => handleDelete(e, deduccion.iddeducciones)}
+                            onClick={(e) =>
+                              handleDelete(e, deduccion.iddeducciones)
+                            }
                           />
                         </button>
                         <AddModalDeducciones
                           id={deduccion.iddeducciones}
                           isEdit={true}
                           update={deducciones.refetch}
+                          deduccionData={deduccion}
                         />
                       </div>
                     </td>

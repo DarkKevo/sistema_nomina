@@ -3,12 +3,21 @@ import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalBonificaciones({ isEdit, id, update }) {
+export default function AddModalBonificaciones({
+  isEdit,
+  id,
+  update,
+  bonificacionData,
+}) {
   const [openModal, setOpenModal] = useState(false);
 
   //estados para el fetch
-  const [monto, setMonto] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+  const [monto, setMonto] = useState(
+    isEdit ? bonificacionData.monto_bonificacion : ""
+  );
+  const [descripcion, setDescripcion] = useState(
+    isEdit ? bonificacionData.descripcion_bonificacion : ""
+  );
 
   const mutation = useMutation(
     (datos) => {
@@ -35,7 +44,9 @@ export default function AddModalBonificaciones({ isEdit, id, update }) {
           });
         } else {
           Swal.fire({
-            title: isEdit ? "Bonificación Editado!" : "Bonificación registrado!",
+            title: isEdit
+              ? "Bonificación Editado!"
+              : "Bonificación registrado!",
             icon: "success",
             timer: 3000,
           });
@@ -54,7 +65,7 @@ export default function AddModalBonificaciones({ isEdit, id, update }) {
 
     const datos = isEdit
       ? {
-        idbonificaciones: id,
+          idbonificaciones: id,
           monto,
           descripcion,
         }

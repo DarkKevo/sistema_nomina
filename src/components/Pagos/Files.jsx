@@ -5,6 +5,7 @@ import ModalConfiguracion from "./ModalConfiguracion";
 import { FaRegTrashAlt, FaUserTie } from "react-icons/fa";
 import { sesion } from "../../context/ValidateSesion";
 import { useContext } from "react";
+import Swal from "sweetalert2";
 
 export default function Files() {
   const { setLoader } = useContext(sesion);
@@ -36,10 +37,20 @@ export default function Files() {
   );
 
   const handleDeleteFile = (id) => {
-    const data = {
-      idfile: id,
-    };
-    mutationFile.mutate(data);
+    Swal.fire({
+      text: "¿Eliminar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((resultado) => {
+      if (resultado.value) {
+        const data = {
+          idfile: id,
+        };
+        mutationFile.mutate(data);
+      }
+    });
   };
 
   if (files.isLoading || bancos.isLoading) {

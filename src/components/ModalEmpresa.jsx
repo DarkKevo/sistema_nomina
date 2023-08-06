@@ -3,14 +3,20 @@ import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import { toast, Toaster } from "react-hot-toast";
 
-export default function ModalEmpresa({ open, refetch, isEdit }) {
+export default function ModalEmpresa({isEdit, refetch,  open, dataEmpresa }) {
   //estados para el fetch
-  const [nombreEmpresa, setNombreEmpresa] = useState("");
-  const [direccionEmpresa, setDireccionEmpresa] = useState("");
-  const [Rif, setRif] = useState("");
-  const [TelefonoEmpresa, setTelefonoEmpresa] = useState("");
-  const [Correo, setCorreo] = useState("");
-  const [img, setImg] = useState(null)
+  const [nombreEmpresa, setNombreEmpresa] = useState(
+    isEdit ? dataEmpresa.nombre : ""
+  );
+  const [direccionEmpresa, setDireccionEmpresa] = useState(
+    isEdit ? dataEmpresa.direccion : ""
+  );
+  const [Rif, setRif] = useState(isEdit ? dataEmpresa.rif : "");
+  const [TelefonoEmpresa, setTelefonoEmpresa] = useState(
+    isEdit ? dataEmpresa.telefono : ""
+  );
+  const [Correo, setCorreo] = useState(isEdit ? dataEmpresa.correo : "");
+  const [img, setImg] = useState(null);
   const [openModal, setOpenModal] = useState(open);
 
   const mutation = useMutation(
@@ -42,7 +48,7 @@ export default function ModalEmpresa({ open, refetch, isEdit }) {
     e.preventDefault();
 
     const formData = new FormData();
-    if(isEdit){
+    if (isEdit) {
       formData.append("idEmpresas", 1);
       formData.append("rif", Rif);
       formData.append("nombre", nombreEmpresa);
@@ -50,7 +56,7 @@ export default function ModalEmpresa({ open, refetch, isEdit }) {
       formData.append("telefono", TelefonoEmpresa);
       formData.append("correo", Correo);
       formData.append("imageURL", img);
-    }else{
+    } else {
       formData.append("rif", Rif);
       formData.append("nombre", nombreEmpresa);
       formData.append("direccion", direccionEmpresa);
@@ -132,7 +138,7 @@ export default function ModalEmpresa({ open, refetch, isEdit }) {
                 onChange={(e) => setCorreo(e.target.value)}
                 placeholder="Ingrese el correo de la empresa"
               />
-              </div>
+            </div>
             <div className="w-full border-t-2 border-white p-3 flex justify-end gap-3">
               <input
                 className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/2 p-2 rounded"

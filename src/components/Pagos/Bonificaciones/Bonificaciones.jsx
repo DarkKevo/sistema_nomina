@@ -1,13 +1,12 @@
 import { useQuery, useMutation } from "react-query";
 import { FaRegTrashAlt, FaUserTie } from "react-icons/fa";
 import Swal from "sweetalert2";
-import {sesion} from '../../../context/ValidateSesion'
+import { sesion } from "../../../context/ValidateSesion";
 import { useContext } from "react";
 import AddModalBonificaciones from "./AddModalBonificaciones";
 
 export default function Bonificaciones() {
-
-    const {setLoader} = useContext(sesion)
+  const { setLoader } = useContext(sesion);
 
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
 
@@ -51,18 +50,28 @@ export default function Bonificaciones() {
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    const data = {
-        idbonificaciones: id,
-    };
-    mutation.mutate(data);
+    Swal.fire({
+      text: "¿Eliminar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((resultado) => {
+      if (resultado.value) {
+        const data = {
+          idbonificaciones: id,
+        };
+        mutation.mutate(data);
+      }
+    });
   };
 
-  if(bonificaciones.isLoading){
-    setLoader(true)
-    return(<></>)
+  if (bonificaciones.isLoading) {
+    setLoader(true);
+    return <></>;
   }
-  if(bonificaciones.isSuccess){
-    setLoader(false)
+  if (bonificaciones.isSuccess) {
+    setLoader(false);
   }
 
   return (
@@ -72,7 +81,10 @@ export default function Bonificaciones() {
           <h1 className="flex gap-2 items-center text-sm font-bold">
             <FaUserTie className="text-2xl" /> Bonificaciones en la empresa
           </h1>
-          <AddModalBonificaciones isEdit={false} update={bonificaciones.refetch} />
+          <AddModalBonificaciones
+            isEdit={false}
+            update={bonificaciones.refetch}
+          />
         </nav>
         {bonificaciones.data.error ? (
           <>No hay</>
@@ -80,7 +92,6 @@ export default function Bonificaciones() {
           <table className="w-3/4 border-collapse border-2">
             <thead>
               <tr>
-                
                 <th
                   className={
                     tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
@@ -108,19 +119,26 @@ export default function Bonificaciones() {
               <tbody>
                 {bonificaciones.data.map((bonificacion) => (
                   <tr key={bonificacion.idbonificaciones}>
-                    <td className={tableStyle}>{bonificacion.descripcion_bonificacion}</td>
-                    <td className={tableStyle}>{bonificacion.monto_bonificacion}</td>
+                    <td className={tableStyle}>
+                      {bonificacion.descripcion_bonificacion}
+                    </td>
+                    <td className={tableStyle}>
+                      {bonificacion.monto_bonificacion}
+                    </td>
                     <td className="border-b-2">
                       <div className="flex items-center justify-center text-2xl gap-3">
                         <button>
                           <FaRegTrashAlt
-                            onClick={(e) => handleDelete(e, bonificacion.idbonificaciones)}
+                            onClick={(e) =>
+                              handleDelete(e, bonificacion.idbonificaciones)
+                            }
                           />
                         </button>
                         <AddModalBonificaciones
                           id={bonificacion.idbonificaciones}
                           isEdit={true}
                           update={bonificaciones.refetch}
+                          bonificacionData={bonificacion}
                         />
                       </div>
                     </td>

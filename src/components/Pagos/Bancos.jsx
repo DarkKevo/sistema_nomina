@@ -49,10 +49,20 @@ export default function Bancos() {
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    const data = {
-      idbancos: id,
-    };
-    mutationBanco.mutate(data);
+    Swal.fire({
+      text: "¿Eliminar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((resultado) => {
+      if (resultado.value) {
+        const data = {
+          idbancos: id,
+        };
+        mutationBanco.mutate(data);
+      }
+    });
   };
 
   if (bancos.isLoading) {
@@ -125,6 +135,7 @@ export default function Bancos() {
                           id={banco.idbancos}
                           isEdit={true}
                           update={bancos.refetch}
+                          bancoData={banco}
                         />
                       </div>
                     </td>

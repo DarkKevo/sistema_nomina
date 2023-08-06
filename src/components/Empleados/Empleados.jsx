@@ -1,15 +1,18 @@
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from "react-icons/fa";
 import { useQuery, useMutation } from "react-query";
 import AddModalEmpleados from "./AddModalEmpleados";
 import ModalPDF from "./ModalPdf";
 import Swal from "sweetalert2";
-import {sesion} from '../../context/ValidateSesion'
+import { sesion } from "../../context/ValidateSesion";
 
 export default function Empleados() {
-  const {setLoader} = useContext(sesion)
-  const empleados = useQuery("empleados", () =>
-    fetch("http://localhost:3000/ListarEmpleados").then((res) => res.json()),{
+  const { setLoader } = useContext(sesion);
+  const empleados = useQuery(
+    "empleados",
+    () =>
+      fetch("http://localhost:3000/ListarEmpleados").then((res) => res.json()),
+    {
       refetchOnWindowFocus: false,
     }
   );
@@ -49,28 +52,38 @@ export default function Empleados() {
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    const data = {
-      idEmpleados: id,
-    };
-    mutation.mutate(data);
+    Swal.fire({
+      text: "¿Eliminar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((resultado) => {
+      if (resultado.value) {
+        const data = {
+          idEmpleados: id,
+        };
+        mutation.mutate(data);
+      }
+    });
   };
 
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-2";
 
- 
-  if (empleados.isLoading||empleados.isIdle) {
+  if (empleados.isLoading || empleados.isIdle) {
     setLoader(true);
-      return (<></>);
-    }
-    if(empleados.isSuccess){
-      setLoader(false)
-    }
-
-  const fecha_a = (antiguedad) =>{
-    const f = new Date(antiguedad)
-    const fa = `${f.getDate()}-`+ `${f.getMonth() + 1}-`+`${f.getFullYear()}`;
-    return(fa)
+    return <></>;
   }
+  if (empleados.isSuccess) {
+    setLoader(false);
+  }
+
+  const fecha_a = (antiguedad) => {
+    const f = new Date(antiguedad);
+    const fa =
+      `${f.getDate()}-` + `${f.getMonth() + 1}-` + `${f.getFullYear()}`;
+    return fa;
+  };
 
   return (
     <div className="w-full py-10 flex flex-col items-center justify-start gap-10">
@@ -156,7 +169,7 @@ export default function Empleados() {
                 <td className={tableStyle}>{empleado.numero_cuenta}</td>
                 <td className={tableStyle}>{fecha_a(empleado.antiguedad)}</td>
                 <td className={tableStyle}>{empleado.estado}</td>
-                <td className='border-b-2'>
+                <td className="border-b-2">
                   <div className="flex items-center justify-center text-2xl gap-3">
                     <button
                       onClick={(e) => handleDelete(e, empleado.idEmpleados)}
@@ -164,9 +177,14 @@ export default function Empleados() {
                       <FaRegTrashAlt />
                     </button>
                     <button>
-                      <AddModalEmpleados idEmpleado={empleado.idEmpleados} isEdit={true} update={empleados.refetch}/>
+                      <AddModalEmpleados
+                        idEmpleado={empleado.idEmpleados}
+                        isEdit={true}
+                        update={empleados.refetch}
+                        empleadoData={empleado}
+                      />
                     </button>
-                    <ModalPDF idEmpleados={empleado.idEmpleados}/>
+                    <ModalPDF idEmpleados={empleado.idEmpleados} />
                   </div>
                 </td>
               </tr>

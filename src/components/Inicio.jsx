@@ -22,9 +22,9 @@ export default function Inicio() {
 
   return (
     <div className="w-full flex flex-col items-center justify-center font-poppins p-10">
-      {empresa.data && !empresa.data.error ? (
+      {empresa.data[0] && !empresa.data.error ? (
         <div className="w-3/4 bg-DarkBlue p-10 flex flex-col items-center justify-evenly gap-5 rounded-lg text-white">
-          <ModalEmpresa isEdit={true} refetch={empresa.refetch} open={false}/>
+          <ModalEmpresa isEdit={true} refetch={empresa.refetch} open={false} dataEmpresa={{...empresa.data[0]}}/>
           <img
             className="w-[200px] h-[200px] rounded-[60%] object-center object-cover -mt-28 border-2 border-white"
             src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"

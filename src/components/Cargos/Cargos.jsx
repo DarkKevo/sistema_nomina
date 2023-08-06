@@ -44,10 +44,23 @@ export default function Cargos() {
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    const data = {
-      idcargos: id,
-    };
-    mutation.mutate(data);
+    Swal
+    .fire({
+        text: "¿Eliminar?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+    })
+    .then(resultado => {
+        if (resultado.value) {
+          const data = {
+            idcargos: id,
+          };
+          mutation.mutate(data);
+        }
+    });
+    
   };
   const cargos = useQuery("cargos", () =>
     fetch("http://localhost:3000/ListarCargo").then((res) => res.json())
@@ -105,7 +118,7 @@ export default function Cargos() {
                           onClick={(e) => handleDelete(e, cargo.idcargos)}
                         />
                       </button>
-                      <AddModalCargos id={cargo.idcargos} isEdit={true} update={cargos.refetch}/>
+                      <AddModalCargos id={cargo.idcargos} isEdit={true} update={cargos.refetch} cargoData={cargo}/>
                     </div>
                   </td>
                 </tr>

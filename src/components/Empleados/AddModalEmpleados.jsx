@@ -4,23 +4,43 @@ import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { sesion } from "../../context/ValidateSesion";
 
-export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
+export default function AddModalEmpleados({
+  idEmpleado,
+  isEdit,
+  update,
+  empleadoData,
+}) {
   const { setLoader } = useContext(sesion);
   //estados para el fetch
-  const [cedula, setCedula] = useState("");
-  const [nombres, setNombres] = useState("");
-  const [apellidos, setApellidos] = useState("");
-  const [fechaNacimiento, setFecha] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [cargo, setCargo] = useState("none");
-  const [departamento, setDepartamento] = useState("none");
-  const [cuenta, setCuenta] = useState("");
-  const [estado, setEstado] = useState("none");
-  const [pass, setpass] = useState("");
-  const [codigo_bonificaciones, setbonificaciones] = useState("none");
-  const [codigo_deduccion, setdeducciones] = useState("none");
+  const [cedula, setCedula] = useState(isEdit ? empleadoData.cedula : "");
+  const [nombres, setNombres] = useState(isEdit ? empleadoData.nombres : "");
+  const [apellidos, setApellidos] = useState(
+    isEdit ? empleadoData.apellidos : ""
+  );
+  const [fechaNacimiento, setFecha] = useState(
+    isEdit ? empleadoData.fecha_nacimiento : ""
+  );
+  const [direccion, setDireccion] = useState(
+    isEdit ? empleadoData.direccion : ""
+  );
+  const [correo, setCorreo] = useState(isEdit ? empleadoData.correo : "");
+  const [telefono, setTelefono] = useState(isEdit ? empleadoData.telefono : "");
+  const [cargo, setCargo] = useState(
+    isEdit ? empleadoData.codigo_cargo : "none"
+  );
+  const [departamento, setDepartamento] = useState(
+    isEdit ? empleadoData.codigo_departamento : "none"
+  );
+  const [cuenta, setCuenta] = useState(
+    isEdit ? empleadoData.numero_cuenta : ""
+  );
+  const [estado, setEstado] = useState(isEdit ? empleadoData.estado : "none");
+  const [codigo_bonificaciones, setbonificaciones] = useState(
+    isEdit ? empleadoData.codigo_bonificaciones : "none"
+  );
+  const [codigo_deduccion, setdeducciones] = useState(
+    isEdit ? empleadoData.codigo_deduccion : "none"
+  );
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -93,7 +113,7 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
           numero_cuenta: cuenta,
           estado: estado,
           idEmpleados: idEmpleado,
-          pass: pass,
+         
           codigo_deduccion: codigo_deduccion,
           codigo_bonificaciones: codigo_bonificaciones,
         }
@@ -110,7 +130,7 @@ export default function AddModalEmpleados({ idEmpleado, isEdit, update }) {
           codigo_empresa: 1,
           numero_cuenta: cuenta,
           estado: estado,
-          pass: pass,
+         
           codigo_deduccion: codigo_deduccion,
           codigo_bonificaciones: codigo_bonificaciones,
         };

@@ -3,11 +3,11 @@ import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalPagos({ isEdit, id, update }) {
+export default function AddModalPagos({ isEdit, id, update, bancoData }) {
   //estados para el fetch
-  const [CodigoCuenta, setCodigoCuenta] = useState("");
-  const [nombreCuenta, setNombreCuenta] = useState("");
-  const [NumeroCuenta, setNumeroCuenta] = useState("");
+  const [CodigoCuenta, setCodigoCuenta] = useState(isEdit ? bancoData.codigo:"");
+  const [nombreCuenta, setNombreCuenta] = useState(isEdit ? bancoData.nombre:"");
+  const [NumeroCuenta, setNumeroCuenta] = useState(isEdit ? bancoData.cuenta:"");
   const [openModal, setOpenModal] = useState(false);
 
   const mutation = useMutation(
@@ -80,7 +80,7 @@ export default function AddModalPagos({ isEdit, id, update }) {
           <FaRegEdit />
         ) : (
           <>
-            Añadir Cargo <FaPlus className="text-xl" />
+            Añadir Banco <FaPlus className="text-xl" />
           </>
         )}
       </button>

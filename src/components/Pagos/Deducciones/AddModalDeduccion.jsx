@@ -3,12 +3,21 @@ import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalDeducciones({ isEdit, id, update }) {
+export default function AddModalDeducciones({
+  isEdit,
+  id,
+  update,
+  deduccionData,
+}) {
   const [openModal, setOpenModal] = useState(false);
 
   //estados para el fetch
-  const [monto, setMonto] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+  const [monto, setMonto] = useState(
+    isEdit ? deduccionData.monto_deduccion : ""
+  );
+  const [descripcion, setDescripcion] = useState(
+    isEdit ? deduccionData.descripcion_deduccion : ""
+  );
 
   const mutation = useMutation(
     (datos) => {

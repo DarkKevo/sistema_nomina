@@ -29,6 +29,7 @@ export default function Login() {
     },
     {
       onSuccess: (data) => {
+        console.log(data)
         if (data.Status !== 200) {
           Swal.fire({
             title: "Datos incorrectos",
@@ -42,7 +43,15 @@ export default function Login() {
           navigate("/sesion/inicio");
         }
       },
-      onError: (error) => console.log(error),
+      onError: (error) => {
+        console.log(error)
+        Swal.fire({
+          title: "Datos incorrectos",
+          icon: "error",
+          timer: 3000,
+          showConfirmButton: false,
+        })
+      },
     }
   );
 
