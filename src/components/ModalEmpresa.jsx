@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import { toast, Toaster } from "react-hot-toast";
+import { sesion } from "../context/ValidateSesion";
 
 export default function ModalEmpresa({ isEdit, refetch, open, dataEmpresa }) {
+  const { setLoader } = useContext(sesion);
   //estados para el fetch
   const [nombreEmpresa, setNombreEmpresa] = useState(
     isEdit ? dataEmpresa.nombre : ""
@@ -40,7 +42,7 @@ export default function ModalEmpresa({ isEdit, refetch, open, dataEmpresa }) {
       },
       onError: (err) => {
         console.log(err);
-      },
+      }
     }
   );
 
@@ -139,12 +141,20 @@ export default function ModalEmpresa({ isEdit, refetch, open, dataEmpresa }) {
                 onChange={(e) => setCorreo(e.target.value)}
                 placeholder="Ingrese el correo de la empresa"
               />
-              <div>
-                <label className="text-white text-sm" htmlFor="">
-                  Suba la imagen del logo de la empresa
-                </label>
-                <input type="file" name="" id="" className="p-3" onChange={(e)=>setImg(e.target.files[0])} />
-              </div>
+              {!isEdit && (
+                <div>
+                  <label className="text-white text-sm" htmlFor="">
+                    Suba la imagen del logo de la empresa
+                  </label>
+                  <input
+                    type="file"
+                    name=""
+                    id=""
+                    className="p-3"
+                    onChange={(e) => setImg(e.target.files[0])}
+                  />
+                </div>
+              )}
             </div>
             <div className="w-full border-t-2 border-white p-3 flex justify-end gap-3">
               <input
