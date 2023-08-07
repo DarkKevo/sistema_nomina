@@ -20,8 +20,6 @@ export default function Inicio() {
     setLoader(false)
   }
 
-  console.log(empresa)
-
   return (
     <div className="w-full flex flex-col items-center justify-center font-poppins p-10">
       {empresa.data[0] && !empresa.data.error ? (

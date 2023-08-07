@@ -2,9 +2,9 @@ import { useQuery, useMutation } from "react-query";
 import { FaRegTrashAlt, FaUserTie } from "react-icons/fa";
 import { sesion } from "../../../context/ValidateSesion";
 import { useContext } from "react";
+import Swal from 'sweetalert2'
 
 export default function Registro() {
-  
   const { setLoader } = useContext(sesion);
 
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
@@ -13,8 +13,26 @@ export default function Registro() {
     fetch("http://localhost:3000/ListarPago").then((res) => res.json())
   );
 
-  const pagos = useQuery('pagos', () =>
-  fetch("http://localhost:3000/GenerarPagos").then((res) => res.json()))
+  async function pagos() {
+    const data = await fetch("http://localhost:3000/GenerarPagos");
+    console.log(data)
+     if (data.ok !== true) {
+           Swal.fire({
+             title: "El empleado no esta registrado o no tiene horas agregadas",
+             icon: "error",
+             timer: 3000,
+             showConfirmButton: false,
+           });
+         } else {
+           Swal.fire({
+             title: "Empleados Pagados!",
+             icon: "success",
+             timer: 3000,
+           });
+            registros.refetch();
+         }
+
+  }
 
   if (registros.isLoading) {
     setLoader(true);
@@ -31,7 +49,12 @@ export default function Registro() {
           <h1 className="flex gap-2 items-center text-sm font-bold">
             <FaUserTie className="text-2xl" /> Registro de los pagos a empleados
           </h1>
-          <button onClick={()=>{pagos.refetch(); registros.refetch()}} className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white">
+          <button
+            onClick={() => {
+              pagos();
+            }}
+            className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white"
+          >
             Calcular Pagos
           </button>
         </nav>
