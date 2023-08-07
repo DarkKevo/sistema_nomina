@@ -221,7 +221,7 @@ export default function Registro() {
                     <td className={tableStyle}>{fecha_a(pago.fecha_pago)}</td>
                     <td className={tableStyle}>
                       {" "}
-                      <ModalPDF idEmpleados={"empleado.idEmpleados"} />
+                      <ModalPDF dataPago={pago} />
                     </td>
                   </tr>
                 ))}
