@@ -5,7 +5,7 @@ import { useContext } from "react";
 
 export default function HistorialDeducciones() {
   const { setLoader } = useContext(sesion);
-
+  let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
   const deduccionesHisto = useQuery("deduccionesHisto", () =>
     fetch("http://localhost:3000/ListarHistorialD").then((res) => res.json())
   );
