@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 import { FaUserTie, FaRegTrashAlt } from "react-icons/fa";
 import { sesion } from "../../../context/ValidateSesion";
 import { useContext } from "react";
+import AddHistorialDeducciones from "./AddHistoDeducciones";
 
 export default function HistorialDeducciones() {
   const { setLoader } = useContext(sesion);
@@ -27,6 +28,7 @@ export default function HistorialDeducciones() {
             <FaUserTie className="text-2xl" /> Historial deducciones en la
             empresa
           </h1>
+          <AddHistorialDeducciones update={deduccionesHisto.refetch}/>
         </nav>
         {deduccionesHisto.data.error ? (
           <>No hay</>
@@ -39,14 +41,14 @@ export default function HistorialDeducciones() {
                     tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
                   }
                 >
-                  Descripcion
+                  Empleado
                 </th>
                 <th
                   className={
                     tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
                   }
                 >
-                  Monto
+                  Deducción
                 </th>
               </tr>
             </thead>
@@ -55,9 +57,9 @@ export default function HistorialDeducciones() {
                 {deduccionesHisto.data.map((deduccion) => (
                   <tr key={deduccion.iddeducciones}>
                     <td className={tableStyle}>
-                      {deduccion.descripcion_deduccion}
+                      {deduccion.nombres}
                     </td>
-                    <td className={tableStyle}>{deduccion.monto_deduccion}</td>
+                    <td className={tableStyle}>{deduccion.deducciones}</td>
                   </tr>
                 ))}
               </tbody>

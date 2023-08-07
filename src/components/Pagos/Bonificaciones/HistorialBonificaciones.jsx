@@ -41,14 +41,14 @@ export default function HistorialBonificaciones() {
                     tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
                   }
                 >
-                  Descripcion
+                 Empleado
                 </th>
                 <th
                   className={
                     tableStyle + " bg-DarkBlue bg-opacity-70 text-white"
                   }
                 >
-                  Monto
+                   Descripcion
                 </th>
               </tr>
             </thead>
@@ -57,10 +57,10 @@ export default function HistorialBonificaciones() {
                 {bonificacionesHisto.data.map((bonificacion) => (
                   <tr key={bonificacion.idbonificaciones}>
                     <td className={tableStyle}>
-                      {bonificacion.descripcion_bonificacion}
+                      {bonificacion.nombres}
                     </td>
                     <td className={tableStyle}>
-                      {bonificacion.monto_bonificacion}
+                      {bonificacion.bonificacion}
                     </td>
                   </tr>
                 ))}
