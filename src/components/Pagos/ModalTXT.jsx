@@ -5,7 +5,6 @@ import { useMutation, useQuery } from "react-query";
 export default function ModalTXT({ id }) {
   const [openModal, setOpenModal] = useState(false);
   const [fechaInicio, setFechaInicio] = useState('')
-  const [fechaCierre, setFechaCierre] = useState('')
 
   const mutation = useMutation(
     (datos) => {
@@ -43,8 +42,7 @@ export default function ModalTXT({ id }) {
     e.preventDefault();
     const data = {
       id_file: id,
-      fecha_init: fechaInicio,
-      fecha_final: fechaCierre,
+      fecha_init: fechaInicio
     };
     mutation.mutate(data);
   };
@@ -77,12 +75,6 @@ export default function ModalTXT({ id }) {
                 Ingrese la fecha de <strong className="text-lg">inicio</strong> del pago de nomina:
               </label>
                 <input onChange={(e)=>setFechaInicio(e.target.value)} value={fechaInicio} type="date" name="" id="" className="w-full p-2 border-2 border-white rounded" />
-            </div>
-            <div className="w-3/4 flex flex-col gap-2 ">
-              <label htmlFor="" className="text-white text-sm">
-                Ingrese la fecha de <strong className="text-lg">cierre</strong> del pago de nomina:
-              </label>
-                <input value={fechaCierre} onChange={(e)=>setFechaCierre(e.target.value)} type="date" name="" id="" className="w-full p-2 border-2 border-white rounded" />
             </div>
             <input type="submit" value='enviar' className="bg-white bg-opacity-90 border-2 border-black font-bold w-1/6 p-2 rounded cursor-pointer" />
           </form>
