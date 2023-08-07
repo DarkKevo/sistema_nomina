@@ -10,6 +10,7 @@ export default function AddModalEmpleados({
   update,
   empleadoData,
 }) {
+  console.log(empleadoData)
   const { setLoader } = useContext(sesion);
   //estados para el fetch
   const [cedula, setCedula] = useState(isEdit ? empleadoData.cedula : "");
@@ -35,12 +36,6 @@ export default function AddModalEmpleados({
     isEdit ? empleadoData.numero_cuenta : ""
   );
   const [estado, setEstado] = useState(isEdit ? empleadoData.estado : "none");
-  const [codigo_bonificaciones, setbonificaciones] = useState(
-    isEdit ? empleadoData.codigo_bonificaciones : "none"
-  );
-  const [codigo_deduccion, setdeducciones] = useState(
-    isEdit ? empleadoData.codigo_deduccion : "none"
-  );
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -90,12 +85,6 @@ export default function AddModalEmpleados({
   const departamentos = useQuery("departamentos", () =>
     fetch("http://localhost:3000/ListarDepartamento").then((res) => res.json())
   );
-  const deducciones = useQuery("deducciones", () =>
-    fetch("http://localhost:3000/ListarDeducciones").then((res) => res.json())
-  );
-  const bon = useQuery("bon", () =>
-    fetch("http://localhost:3000/ListarBonificacion").then((res) => res.json())
-  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -113,9 +102,6 @@ export default function AddModalEmpleados({
           numero_cuenta: cuenta,
           estado: estado,
           idEmpleados: idEmpleado,
-         
-          codigo_deduccion: codigo_deduccion,
-          codigo_bonificaciones: codigo_bonificaciones,
         }
       : {
           cedula: cedula,
@@ -130,9 +116,6 @@ export default function AddModalEmpleados({
           codigo_empresa: 1,
           numero_cuenta: cuenta,
           estado: estado,
-         
-          codigo_deduccion: codigo_deduccion,
-          codigo_bonificaciones: codigo_bonificaciones,
         };
 
     mutation.mutate(data);
@@ -140,18 +123,14 @@ export default function AddModalEmpleados({
 
   if (
     departamentos.isLoading ||
-    cargos.isLoading ||
-    deducciones.isLoading ||
-    bon.isLoading
+    cargos.isLoading
   ) {
     setLoader(true);
     return <></>;
   }
   if (
     departamentos.isSuccess ||
-    cargos.isSuccess ||
-    deducciones.isSuccess ||
-    bon.isSuccess
+    cargos.isSuccess
   ) {
     setLoader(false);
   }
@@ -310,44 +289,6 @@ export default function AddModalEmpleados({
                 <option value="none">seleccione estado</option>
                 <option value="activo">activo</option>
                 <option value="inactivo">inactivo</option>
-              </select>
-
-              <select
-                value={codigo_deduccion}
-                className="p-3 rounded w-1/4"
-                onChange={(e) => setdeducciones(e.target.value)}
-              >
-                <option value="none"> Seleccione la deducción</option>
-                {deducciones.data.error
-                  ? ""
-                  : deducciones.data &&
-                    deducciones.data.map((deduccion) => (
-                      <option
-                        key={deduccion.iddeducciones}
-                        value={deduccion.iddeducciones}
-                      >
-                        {deduccion.descripcion_deduccion}
-                      </option>
-                    ))}
-              </select>
-
-              <select
-                value={codigo_bonificaciones}
-                className="p-3 rounded w-1/4"
-                onChange={(e) => setbonificaciones(e.target.value)}
-              >
-                <option value="none"> Seleccione la bonificación</option>
-                {bon.data.error
-                  ? ""
-                  : bon.data &&
-                    bon.data.map((bonificacion) => (
-                      <option
-                        key={bonificacion.idbonificaciones}
-                        value={bonificacion.idbonificaciones}
-                      >
-                        {bonificacion.descripcion_bonificacion}
-                      </option>
-                    ))}
               </select>
             </div>
 
