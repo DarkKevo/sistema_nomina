@@ -3,9 +3,9 @@ import { useMutation } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddModalDepartamento({ isEdit, id, update }) {
+export default function AddModalDepartamento({ isEdit, id, update, departamentoData}) {
   //estados para el fetch
-  const [departamento, setDepartamento] = useState("");
+  const [departamento, setDepartamento] = useState(isEdit ? departamentoData.departamento: "");
   const [openModal, setOpenModal] = useState(false);
 
   const mutation = useMutation(

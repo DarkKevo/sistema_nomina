@@ -115,7 +115,7 @@ export default function Departamentos() {
                       <AddModalDepartamento
                         isEdit={true}
                         id={departamento.iddepartamentos}
-                        update={departamentos.refetch}
+                        update={departamentos.refetch} departamentoData={departamento}
                       />
                     </div>
                   </td>
