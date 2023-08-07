@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   Font,
+
 } from "@react-pdf/renderer";
 
 export function MyDoc(data) {
@@ -25,7 +26,8 @@ export function MyDoc(data) {
     nombres,
     telefono,
     antiguedad,
-  ] = ["", "", "", "", "", "", "", "", "", "", "", "",""];
+    imagen
+  ] = ["", "", "", "", "", "", "", "", "", "", "", "", "",""];
 
   if (data != "" && data !== undefined) {
     apellidos = data.apellidos;
@@ -37,13 +39,18 @@ export function MyDoc(data) {
     direccion = data.direccion;
     estado = data.estado;
     let fecha_n = new Date(data.fecha_nacimiento);
-    fecha_nacimiento = `${fecha_n.getDate()}-`+ `${fecha_n.getMonth() + 1}-`+`${fecha_n.getFullYear()}`;
+    fecha_nacimiento =
+      `${fecha_n.getDate()}-` +
+      `${fecha_n.getMonth() + 1}-` +
+      `${fecha_n.getFullYear()}`;
     idEmpleados = data.idEmpleados;
     nombres = data.nombres;
     telefono = data.telefono;
     let fa = new Date(data.antiguedad);
-    antiguedad = `${fa.getDate()}-`+ `${fa.getMonth() + 1}-`+`${fa.getFullYear()}`;
-
+    antiguedad =
+      `${fa.getDate()}-` + `${fa.getMonth() + 1}-` + `${fa.getFullYear()}`;
+      imagen = data.imageURL
+      console.log(imagen)
   }
 
   const styles = StyleSheet.create({
@@ -66,13 +73,17 @@ export function MyDoc(data) {
       border: "1px",
       borderColor: "#FFFFFF",
     },
+    image: {
+      width: "1.9cm",
+      height: "1.9cm",
+    },
     head: {
       height: "2cm",
       width: "15.6cm",
       flexDirection: "column",
       textAlign: "center",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
     },
     empresa: {
       display: "flex",
@@ -152,15 +163,16 @@ export function MyDoc(data) {
     <Document>
       <Page size="LETTER" style={styles.page}>
         <View style={styles.cabecera}>
-        <View style={styles.logo}></View>
-        <View style={styles.head}>
-          <View style={styles.empresa}>
-            <Text>{codigo_empresa}</Text>
+          <View style={styles.logo}>
           </View>
-          <View style={styles.titulo}>
-            <Text>INFORMACIÓN PERSONAL DEL EMPLEADO</Text>
+          <View style={styles.head}>
+            <View style={styles.empresa}>
+              <Text>{codigo_empresa}</Text>
+            </View>
+            <View style={styles.titulo}>
+              <Text>INFORMACIÓN PERSONAL DEL EMPLEADO</Text>
+            </View>
           </View>
-        </View>
         </View>
         <View style={styles.content}>
           <View style={styles.fecha}>
@@ -189,27 +201,52 @@ export function MyDoc(data) {
           <View style={styles.subtitle}>
             <Text>INFORMACIÓN PERSONAL</Text>
           </View>
-          <Text style={styles.txt}><Text style={styles.negrita}>CÉDULA </Text>{cedula}</Text>
+          <Text style={styles.txt}>
+            <Text style={styles.negrita}>CÉDULA </Text>
+            {cedula}
+          </Text>
           <View style={styles.group}>
             <View style={styles.ape}>
-              <Text><Text style={styles.negrita}>APELLIDOS </Text>{apellidos}</Text>
+              <Text>
+                <Text style={styles.negrita}>APELLIDOS </Text>
+                {apellidos}
+              </Text>
             </View>
             <View style={styles.nom}>
-              <Text><Text style={styles.negrita}>NOMBRES </Text>{nombres}</Text>
+              <Text>
+                <Text style={styles.negrita}>NOMBRES </Text>
+                {nombres}
+              </Text>
             </View>
           </View>
           <Text style={styles.txt2}>
-            <Text style={styles.negrita}>FECHA DE NACIMIENTO </Text> {fecha_nacimiento}
+            <Text style={styles.negrita}>FECHA DE NACIMIENTO </Text>{" "}
+            {fecha_nacimiento}
           </Text>
-          <Text><Text style={styles.negrita}>DIRECCIÓN </Text>{direccion}</Text>
+          <Text>
+            <Text style={styles.negrita}>DIRECCIÓN </Text>
+            {direccion}
+          </Text>
           <View style={styles.subtitle}>
             <Text>INFORMACIÓN DE CONTACTO</Text>
           </View>
-          <Text style={styles.txt}><Text style={styles.negrita}>TELÉFONO </Text>{telefono}</Text>
-          <Text><Text style={styles.negrita}>CORREO </Text>{correo}</Text>
+          <Text style={styles.txt}>
+            <Text style={styles.negrita}>TELÉFONO </Text>
+            {telefono}
+          </Text>
+          <Text>
+            <Text style={styles.negrita}>CORREO </Text>
+            {correo}
+          </Text>
           <View style={styles.sep}></View>
-          <Text><Text style={styles.negrita}>ESTADO </Text>{estado}</Text>
-          <Text style={styles.txt2}><Text style={styles.negrita}>ANTIGÜEDAD </Text>{antiguedad}</Text>
+          <Text>
+            <Text style={styles.negrita}>ESTADO </Text>
+            {estado}
+          </Text>
+          <Text style={styles.txt2}>
+            <Text style={styles.negrita}>ANTIGÜEDAD </Text>
+            {antiguedad}
+          </Text>
           <View style={styles.sep}></View>
         </View>
       </Page>

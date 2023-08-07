@@ -41,7 +41,8 @@ export const CrearPdfEmpleado = async (i) => {
     nombre: data3[0].nombre,
     direccion_e: data3[0].direccion,
     telefono_e: data3[0].telefono,
-    correo_e: data3[0].correo
+    correo_e: data3[0].correo,
+    imageURL: data3[0].imageURL
   };
 
   return data;
