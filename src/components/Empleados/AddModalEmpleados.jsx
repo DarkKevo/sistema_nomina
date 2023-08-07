@@ -10,7 +10,6 @@ export default function AddModalEmpleados({
   update,
   empleadoData,
 }) {
-  console.log(empleadoData)
   const { setLoader } = useContext(sesion);
   //estados para el fetch
   const [cedula, setCedula] = useState(isEdit ? empleadoData.cedula : "");
