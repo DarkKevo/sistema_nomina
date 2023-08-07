@@ -75,7 +75,12 @@ export function MyDoc(data, dataPago) {
     monto_deduccion = dataPago.dataPago.monto_deduccion;
     monto_bonificacion = dataPago.dataPago.monto_bonificacion;
     pagoTotal = dataPago.dataPago.pagoTotal;
-    fecha_pago = dataPago.dataPago.fecha_pago;
+
+    let fecha_n = new Date(dataPago.dataPago.fecha_pago);
+    fecha_pago =
+      `${fecha_n.getDate()}-` +
+      `${fecha_n.getMonth() + 1}-` +
+      `${fecha_n.getFullYear()}`;
   }
 
   const styles = StyleSheet.create({
@@ -149,6 +154,7 @@ export function MyDoc(data, dataPago) {
       marginBottom: "0.3cm",
       flexDirection: "row",
     },
+    negrita: { fontFamily: "Helvetica-Bold" },
   });
 
   return (
@@ -158,7 +164,9 @@ export function MyDoc(data, dataPago) {
           <View style={styles.logo}></View>
           <View style={styles.head}>
             <View style={styles.empresa}>
-              <Text>{codigo_empresa}</Text>
+              <Text>
+                {codigo_empresa} {" - " + rif}
+              </Text>
             </View>
             <View style={styles.titulo}>
               <Text>RECIBO DEL EMPLEADO</Text>
@@ -169,46 +177,40 @@ export function MyDoc(data, dataPago) {
           <View style={styles.fecha}>
             <Text style={styles.fecha}>
               <Text style={styles.negrita}>FECHA </Text>
-              {fecha_pago}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.txt}>
-              <Text style={styles.negrita}>RIF</Text>
-              {rif}
+              {"" + fecha_pago}
             </Text>
           </View>
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>ID DEL EMPLEADO</Text>
-              {idEmpleado}
+              {" " + idEmpleado}
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>CEDULA</Text>
-              {cedula}
+              {" " + cedula}
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>NOMBRE DEL EMPLEADO</Text>
-              {nombre}
+              {" " + nombre}
             </Text>
           </View>
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>DEPARTAMENTO</Text>
-              {departamento}
+              {" " + departamento}
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>CARGO</Text>
-              {cargo}
+              {" " + cargo}
             </Text>
           </View>
 
@@ -222,76 +224,76 @@ export function MyDoc(data, dataPago) {
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>CORREO</Text>
-              {correo}
+              {" " + correo}
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>DIAS</Text>
-              {dias}
+              {" " + dias}
             </Text>
           </View>
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>DIAS DE DESCANSO</Text>
-              {dias_descanso}
+              {" " + dias_descanso}
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>FECHAS DEL PAGO</Text>
-              {fechas}
+              {" " + fechas}
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>HORAS TRABAJADAS</Text>
-              {horas_trabajadas}
+              {" " + horas_trabajadas}
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>PAGO DE HORAS TRABAJADAS</Text>
-              {monto_base}
+              {" " + monto_base}Bf.S
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>HORAS EXTRAS</Text>
-              {horas_extras}
+              {" " + horas_extras}
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>PAGO DE HORAS EXTRAS</Text>
-              {monto_extra}
+              {" " + monto_extra}Bf.S
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>MONTO DE DEDUCCIONES</Text>
-              {monto_deduccion}
+              {" " + monto_deduccion}Bf.S
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>MONTO DE BONIFICACIONES</Text>
-              {monto_bonificacion}
+              {" " + monto_bonificacion}Bf.S
             </Text>
           </View>
 
           <View>
             <Text style={styles.txt}>
               <Text style={styles.negrita}>PAGO TOTAL</Text>
-              {pagoTotal}
+              {" " + pagoTotal}Bf.S
             </Text>
           </View>
         </View>
