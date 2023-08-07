@@ -2,9 +2,11 @@ import { useQuery } from "react-query";
 import { FaUserTie, FaRegTrashAlt } from "react-icons/fa";
 import { sesion } from "../../../context/ValidateSesion";
 import { useContext } from "react";
+import AddHistorialBonificaciones from "./AdddHistorial";
 
 export default function HistorialBonificaciones() {
   const { setLoader } = useContext(sesion);
+  let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
 
   const bonificacionesHisto = useQuery("bonificacionesHisto", () =>
     fetch("http://localhost:3000/ListarHistorialb").then((res) => res.json())
@@ -26,6 +28,7 @@ export default function HistorialBonificaciones() {
             <FaUserTie className="text-2xl" /> Historial Bonificaciones en la
             empresa
           </h1>
+          <AddHistorialBonificaciones update={bonificacionesHisto.refetch}/>
         </nav>
         {bonificacionesHisto.data.error ? (
           <>No hay</>
