@@ -12,9 +12,9 @@ export default function Login() {
   const [pass, setPass] = useState("");
   const navigate = useNavigate();
 
-  const [cedula, setCedula] = useState("");
-  const [pagos, setPagos] = useState(null);
-  const { setToken } = useContext(sesion);
+  const [cedula, setCedula] = useState("V-");
+  const [pagos, setPagos] = useState([]);
+  const { setToken, setLoader } = useContext(sesion);
 
   useEffect(() => {}, [pagos]);
 
@@ -29,7 +29,6 @@ export default function Login() {
     },
     {
       onSuccess: (data) => {
-        console.log(data)
         if (data.Status !== 200) {
           Swal.fire({
             title: "Datos incorrectos",
@@ -44,13 +43,13 @@ export default function Login() {
         }
       },
       onError: (error) => {
-        console.log(error)
+        console.log(error);
         Swal.fire({
           title: "Datos incorrectos",
           icon: "error",
           timer: 3000,
           showConfirmButton: false,
-        })
+        });
       },
     }
   );
@@ -75,10 +74,8 @@ export default function Login() {
     },
     {
       onSuccess: (data) => {
-        console.log(data)
         if (data) {
           setPagos(data);
-          console.log(data)
         }
       },
     }
@@ -92,6 +89,13 @@ export default function Login() {
     console.log(data);
     mutationPago.mutate(data);
   };
+
+  if (mutationPago.isLoading) {
+    setLoader(true);
+  }
+  if (mutationPago.isSuccess) {
+    setLoader(false);
+  }
 
   return (
     <div className="font-poppins bg-LightBlue min-h-screen flex  justify-center items-center">
@@ -124,17 +128,23 @@ export default function Login() {
               className="text-slate-400 ml-2 p-3 rounded border-2 border-slate-400 cursor-pointer hover:bg-LightBlue hover:text-white"
             />
           </form>
-          {pagos && <div>{pagos.map((pago)=>(
-            <div className="bg-white m-3 p-3 rounded-lg">
-              <p>Nombre: {pago.nombre}</p>
-              <p>Fecha: {pago.fecha}</p>
-              <p>Cuenta: {pago.cuentn}</p>
-              <p>Descando: {pago.pagoDiasDescanso}</p>
-              <p>Extras: {pago.pagoDiasExtras}</p>
-              <p>Laborales: {pago.pagoDiasLaborales}</p>
-              <p>Total: {pago.pagoTotal}</p>
+          {pagos && !pagos.error ? (
+            <div>
+              {pagos.map((pago) => (
+                <div className="bg-white m-3 p-3 rounded-lg">
+                  <p>Nombre: {pago.nombre}</p>
+                  <p>Fecha: {pago.fecha}</p>
+                  <p>Cuenta: {pago.cuentn}</p>
+                  <p>Descando: {pago.pagoDiasDescanso}</p>
+                  <p>Extras: {pago.pagoDiasExtras}</p>
+                  <p>Laborales: {pago.pagoDiasLaborales}</p>
+                  <p>Total: {pago.pagoTotal}</p>
+                </div>
+              ))}
             </div>
-          ))}</div>}
+          ) :(
+            <p className="text-3xl text-white text-center my-10">El empledo no tiene pagos</p>
+          )}
         </div>
       </div>
       <div className="w-1/2 flex flex-col  justify-center items-center">

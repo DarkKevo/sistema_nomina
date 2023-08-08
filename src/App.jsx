@@ -12,6 +12,7 @@ import RutasProtegidas from "./routes/RutasProtegidas";
 import Pagos from "./components/Pagos/Pagos";
 import Horas from "./components/Horas/Horas";
 import RutasIncio from "./routes/RutasInicio";
+import Nomina from "./components/Nomina/Nomina";
 
 
 import { ThreeCircles } from  'react-loader-spinner'
@@ -30,6 +31,7 @@ const {loader} = useContext(sesion)
           <Route path="empleados" element={<Empleados />} />
           <Route path="pagos" element={<Pagos />} />
           <Route path="horas" element={<Horas />} />
+          <Route path="nomina" element={<Nomina />} />
         </Route>
       </Routes>
 

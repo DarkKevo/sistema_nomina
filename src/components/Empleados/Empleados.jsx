@@ -3,6 +3,9 @@ import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from "react-icons/fa";
 import { useQuery, useMutation } from "react-query";
 import AddModalEmpleados from "./AddModalEmpleados";
 import ModalPDF from "./ModalPdf";
+import Vacaciones from "./Vacaciones/Vacaciones";
+import HistorialBonificaciones from "./Bonificaciones/HistorialBonificaciones";
+import HistorialDeducciones from "./Deducciones/HistorialDeducciones";
 import Swal from "sweetalert2";
 import { sesion } from "../../context/ValidateSesion";
 
@@ -192,6 +195,9 @@ export default function Empleados() {
           </tbody>
         </table>
       )}
+      <Vacaciones/>
+      <HistorialDeducciones/>
+      <HistorialBonificaciones/>
     </div>
   );
 }

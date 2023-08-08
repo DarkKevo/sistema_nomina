@@ -10,6 +10,7 @@ import {
   FaDollarSign,
   FaRegArrowAltCircleRight,
   FaBusinessTime,
+  FaFileInvoiceDollar
 } from "react-icons/fa";
 import { sesion } from "../context/ValidateSesion";
 
@@ -46,6 +47,7 @@ export default function Dashboard() {
     departamentos: <FaCity className={styles.iconsList} />,
     empleados: <FaUsers className={styles.iconsList} />,
     Horas: <FaBusinessTime className={styles.iconsList} />,
+    nomina: <FaFileInvoiceDollar className={styles.iconsList} />,
 
   };
 
@@ -55,6 +57,7 @@ export default function Dashboard() {
     { name: "Empleados", icon: icons.empleados },
     { name: "Pagos", icon: icons.Pagos },
     { name: "Horas", icon: icons.Horas },
+    { name: "Nomina", icon: icons.nomina },
   ];
 
   function logOut(){

@@ -3,7 +3,7 @@ import ModalTXT from "./ModalTXT";
 import { toast, Toaster } from "react-hot-toast";
 import ModalConfiguracion from "./ModalConfiguracion";
 import { FaRegTrashAlt, FaUserTie } from "react-icons/fa";
-import { sesion } from "../../context/ValidateSesion";
+import { sesion } from "../../../context/ValidateSesion";
 import { useContext } from "react";
 import Swal from "sweetalert2";
 

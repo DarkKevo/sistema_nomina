@@ -3,13 +3,13 @@ import { useMutation, useQuery } from "react-query";
 import { FaPlus, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-export default function AddHistorialDeducciones({ update }) {
+export default function AddHistorialBonificaciones({ update }) {
   const empleados = useQuery("empleados", () =>
     fetch("http://localhost:3000/ListarEmpleados").then((res) => res.json())
   );
 
-  const deducciones = useQuery("deducciones", () =>
-    fetch("http://localhost:3000/ListarDeducciones").then((res) => res.json())
+  const bonificaciones = useQuery("bonificaciones", () =>
+    fetch("http://localhost:3000/ListarBonificacion").then((res) => res.json())
   );
 
   const [openModal, setOpenModal] = useState(false);
@@ -17,11 +17,11 @@ export default function AddHistorialDeducciones({ update }) {
   //estados para el fetch
   const [idEmpleado, setIdEmpleado] = useState("none");
   const [nombreEmpleado, setNombreEmpleado] = useState("");
-  const [deduccion, setDeduccion] = useState("none");
+  const [bonificacion, setBonificacion] = useState("none");
 
   const mutation = useMutation(
     (datos) => {
-      const res = fetch("http://localhost:3000/AgregarHistorialD", {
+      const res = fetch("http://localhost:3000/AgregarHistorialB", {
         method: "POST",
         body: JSON.stringify(datos),
         headers: { "Content-type": "application/json; charset=UTF-8" },
@@ -39,7 +39,7 @@ export default function AddHistorialDeducciones({ update }) {
           });
         } else {
           Swal.fire({
-            title: "Deducción registrado!",
+            title: "Bonificación registrado!",
             icon: "success",
             timer: 3000,
           });
@@ -52,20 +52,22 @@ export default function AddHistorialDeducciones({ update }) {
       },
     }
   );
+  const nameValue = (e) => {
+    let empleadoName = empleados.data.find((x) => x.idEmpleados == e.target.value);
+    setNombreEmpleado(empleadoName.nombres);
+    
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    let empleadoName = empleados.data.find((x) => x.idEmpleados == idEmpleado);
-    setNombreEmpleado(empleadoName.nombres);
-        const datos = {
+    const datos = {
       id_empleado: idEmpleado,
       nombres: nombreEmpleado,
-      deducciones:deduccion,
+      bonificacion: bonificacion,
     };
-    console.log(datos)
     mutation.mutate(datos);
   };
 
-  if (empleados.isLoading || deducciones.isLoading) {
+  if (empleados.isLoading || bonificaciones.isLoading) {
     return <></>;
   }
 
@@ -79,7 +81,7 @@ export default function AddHistorialDeducciones({ update }) {
       >
         {
           <>
-            Añadir deduccion a empleado <FaPlus className="text-xl" />
+            Añadir Bonificación a empleado <FaPlus className="text-xl" />
           </>
         }
       </button>
@@ -106,7 +108,10 @@ export default function AddHistorialDeducciones({ update }) {
                 className="w-full border-t-2 border-white p-3 flex justify-end gap-3"
                 name=""
                 value={idEmpleado}
-                onChange={(e) => setIdEmpleado(e.target.value)}
+                onChange={(e) => {
+                  setIdEmpleado(e.target.value);
+                  nameValue(e);
+                }}
                 id=""
               >
                 <option value="none">Seleccione</option>
@@ -125,20 +130,20 @@ export default function AddHistorialDeducciones({ update }) {
               <select
                 className="w-full border-t-2 border-white p-3 flex justify-end gap-3"
                 name=""
-                value={deduccion}
-                onChange={(e) => setDeduccion(e.target.value)}
+                value={bonificacion}
+                onChange={(e) => setBonificacion(e.target.value)}
                 id=""
               >
                 <option value="none">Seleccione</option>
-                {deducciones.data.error
+                {bonificaciones.data.error
                   ? ""
-                  : deducciones.data &&
-                    deducciones.data.map((dedu) => (
+                  : bonificaciones.data &&
+                    bonificaciones.data.map((bon) => (
                       <option
-                        key={dedu.iddeducciones}
-                        value={dedu.descripcion_deduccion}
+                        key={bon.idbonificaciones}
+                        value={bon.descripcion_bonificacion}
                       >
-                        {dedu.descripcion_deduccion}
+                        {bon.descripcion_bonificacion}
                       </option>
                     ))}
               </select>

@@ -74,7 +74,7 @@ export default function AddModalHoras({ isEdit, id, update }) {
       >
         {(
           <>
-            Añadir Horas <FaPlus className="text-xl" />
+            Restar Horas <FaPlus className="text-xl" />
           </>
         )}
       </button>
