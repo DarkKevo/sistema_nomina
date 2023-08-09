@@ -58,6 +58,7 @@ export default function Dashboard() {
     { name: "Pagos", icon: icons.Pagos },
     { name: "Horas", icon: icons.Horas },
     { name: "Nomina", icon: icons.nomina },
+    { name: "Historial", icon: icons.nomina },
   ];
 
   function logOut(){
