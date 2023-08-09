@@ -1,20 +1,21 @@
-import { useEffect, useState, useContext } from "react";
-import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from "react-icons/fa";
-import { useQuery, useMutation } from "react-query";
-import AddModalEmpleados from "./AddModalEmpleados";
-import ModalPDF from "./ModalPdf";
-import Vacaciones from "./Vacaciones/Vacaciones";
-import HistorialBonificaciones from "./Bonificaciones/HistorialBonificaciones";
-import HistorialDeducciones from "./Deducciones/HistorialDeducciones";
-import Swal from "sweetalert2";
-import { sesion } from "../../context/ValidateSesion";
+import { useEffect, useState, useContext } from 'react';
+import { FaRegTrashAlt, FaRegEdit, FaUsers, FaPlus } from 'react-icons/fa';
+import { useQuery, useMutation } from 'react-query';
+import AddModalEmpleados from './AddModalEmpleados';
+import ModalPDF from './ModalPdf';
+import Vacaciones from './Vacaciones/Vacaciones';
+import HistorialBonificaciones from './Bonificaciones/HistorialBonificaciones';
+import HistorialDeducciones from './Deducciones/HistorialDeducciones';
+import Swal from 'sweetalert2';
+import { sesion } from '../../context/ValidateSesion';
 
 export default function Empleados() {
+  const [pagina, setPagina] = useState(1);
+  const [limit, setLimit] = useState(2);
   const { setLoader } = useContext(sesion);
   const empleados = useQuery(
-    "empleados",
-    () =>
-      fetch("http://localhost:3000/ListarEmpleados").then((res) => res.json()),
+    'empleados',
+    () => fetch(`http://localhost:3000/ListarEmpleados?page=${pagina}&limit=${limit}`).then((res) => res.json()),
     {
       refetchOnWindowFocus: false,
     }
@@ -22,10 +23,10 @@ export default function Empleados() {
 
   const mutation = useMutation(
     (data) => {
-      const res = fetch("http://localhost:3000/EliminarEmpleado", {
-        method: "DELETE",
+      const res = fetch('http://localhost:3000/EliminarEmpleado', {
+        method: 'DELETE',
         body: JSON.stringify(data),
-        headers: { "Content-type": "application/json; charset=UTF-8" },
+        headers: { 'Content-type': 'application/json; charset=UTF-8' },
       });
       return res;
     },
@@ -33,15 +34,15 @@ export default function Empleados() {
       onSuccess: (data) => {
         if (data.ok !== true) {
           Swal.fire({
-            title: "Datos incorrectos",
-            icon: "error",
+            title: 'Datos incorrectos',
+            icon: 'error',
             timer: 3000,
             showConfirmButton: false,
           });
         } else {
           Swal.fire({
-            title: "Empleado Eliminado!",
-            icon: "success",
+            title: 'Empleado Eliminado!',
+            icon: 'success',
             timer: 3000,
           });
           empleados.refetch();
@@ -53,14 +54,22 @@ export default function Empleados() {
     }
   );
 
+  function next() {
+    setPagina(pagina + 1);
+  }
+
+  function back() {
+    setPagina(pagina - 1);
+  }
+
   const handleDelete = (e, id) => {
     e.preventDefault();
     Swal.fire({
-      text: "¿Eliminar?",
-      icon: "warning",
+      text: '¿Eliminar?',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
     }).then((resultado) => {
       if (resultado.value) {
         const data = {
@@ -71,7 +80,7 @@ export default function Empleados() {
     });
   };
 
-  let tableStyle = "border-b-2 text-center drop-shadow-xl p-2";
+  let tableStyle = 'border-b-2 text-center drop-shadow-xl p-2';
 
   if (empleados.isLoading || empleados.isIdle) {
     setLoader(true);
@@ -83,85 +92,41 @@ export default function Empleados() {
 
   const fecha_a = (antiguedad) => {
     const f = new Date(antiguedad);
-    const fa =
-      `${f.getDate()}-` + `${f.getMonth() + 1}-` + `${f.getFullYear()}`;
+    const fa = `${f.getDate()}-` + `${f.getMonth() + 1}-` + `${f.getFullYear()}`;
     return fa;
   };
 
   return (
-    <div className="w-full py-10 flex flex-col items-center justify-start gap-10">
-      <nav className="w-3/4 rounded-md flex justify-between">
-        <h1 className="flex gap-2 items-center text-sm font-bold">
-          <FaUsers className="text-2xl" /> Empleados en la empresa
+    <div className='w-full py-10 flex flex-col items-center justify-start gap-10'>
+      <nav className='w-3/4 rounded-md flex justify-between'>
+        <h1 className='flex gap-2 items-center text-sm font-bold'>
+          <FaUsers className='text-2xl' /> Empleados en la empresa
         </h1>
         <AddModalEmpleados update={empleados.refetch} />
       </nav>
       {empleados.data.error ? (
         <>no hay</>
       ) : (
-        <table className="w-1/4 border-collapse border-2">
+        <table className='w-1/4 border-collapse border-2'>
           <thead>
             <tr>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                CEDULA
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                NOMBRES
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                APELLIDOS
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                Correo Electronico
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                Telefono
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                CARGO
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                Departamento
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                Banco
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                Antiguedad
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                Estado
-              </th>
-              <th
-                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
-              >
-                ACTIONS
-              </th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>CEDULA</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>NOMBRES</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>APELLIDOS</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>Correo Electronico</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>Telefono</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>CARGO</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>Departamento</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>Banco</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>Antiguedad</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>Estado</th>
+              <th className={tableStyle + ' bg-DarkBlue bg-opacity-70 text-white'}>ACTIONS</th>
             </tr>
           </thead>
           <tbody>
-            {empleados.data.map((empleado) => (
+            {empleados.data.results.map((empleado) => (
               <tr key={empleado.idEmpleados}>
+                {console.log(empleado.cedula)}
                 <td className={tableStyle}>{empleado.cedula}</td>
                 <td className={tableStyle}>{empleado.nombres}</td>
                 <td className={tableStyle}>{empleado.apellidos}</td>
@@ -172,20 +137,13 @@ export default function Empleados() {
                 <td className={tableStyle}>{empleado.numero_cuenta}</td>
                 <td className={tableStyle}>{fecha_a(empleado.antiguedad)}</td>
                 <td className={tableStyle}>{empleado.estado}</td>
-                <td className="border-b-2">
-                  <div className="flex items-center justify-center text-2xl gap-3">
-                    <button
-                      onClick={(e) => handleDelete(e, empleado.idEmpleados)}
-                    >
+                <td className='border-b-2'>
+                  <div className='flex items-center justify-center text-2xl gap-3'>
+                    <button onClick={(e) => handleDelete(e, empleado.idEmpleados)}>
                       <FaRegTrashAlt />
                     </button>
                     <button>
-                      <AddModalEmpleados
-                        idEmpleado={empleado.idEmpleados}
-                        isEdit={true}
-                        update={empleados.refetch}
-                        empleadoData={empleado}
-                      />
+                      <AddModalEmpleados idEmpleado={empleado.idEmpleados} isEdit={true} update={empleados.refetch} empleadoData={empleado} />
                     </button>
                     <ModalPDF idEmpleados={empleado.idEmpleados} />
                   </div>
@@ -195,9 +153,27 @@ export default function Empleados() {
           </tbody>
         </table>
       )}
-      <Vacaciones/>
-      <HistorialDeducciones/>
-      <HistorialBonificaciones/>
+      <>
+        <button
+          onClick={() => {
+            back();
+            console.log(pagina);
+          }}
+        >
+          back
+        </button>
+        <button
+          onClick={() => {
+            next();
+            console.log(pagina);
+          }}
+        >
+          next
+        </button>
+      </>
+      <Vacaciones />
+      <HistorialDeducciones />
+      <HistorialBonificaciones />
     </div>
   );
 }

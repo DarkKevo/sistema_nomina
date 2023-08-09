@@ -76,7 +76,7 @@ export default function Vacaciones() {
             {vacaciones.data && (
               <tbody>
                 {vacaciones.data.map((empleado) => (
-                  <tr key={empleado.idvac}>
+                  <tr key={empleado.id_vac}>
                     <td className={tableStyle}>{empleado.nombres}</td>
                     <td className={tableStyle}>{empleado.apellidos}</td>
                     <td className={tableStyle}>
