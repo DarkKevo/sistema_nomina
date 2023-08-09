@@ -94,6 +94,11 @@ export default function Historial() {
               >
                 MONTO PAGADO TOTAL
               </th>
+              <th
+                className={tableStyle + " bg-DarkBlue bg-opacity-70 text-white"}
+              >
+                ACTION
+              </th>
             </tr>
           </thead>
           {historialNominas.data && (
@@ -102,6 +107,7 @@ export default function Historial() {
                 <tr key={nomina.id_nomina}>
                   <td className={tableStyle}>{nomina.fecha_inicial}</td>
                   <td className={tableStyle}>{nomina.fecha_final}</td>
+                  <td className={tableStyle}>{nomina.monto_nomina}</td>
                   <td className="border-b-2">
                     <div className="flex items-center justify-center text-2xl gap-3">
                       <button>
@@ -115,6 +121,9 @@ export default function Historial() {
                             )
                           }
                         />
+                      </button>
+                      <button className="flex items-center text-sm border-2 border-DarkBlue p-2 rounded-lg font-bold hover:bg-DarkBlue hover:bg-opacity-70 hover:text-white">
+                        Ver Nomina
                       </button>
                     </div>
                   </td>

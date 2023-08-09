@@ -9,9 +9,6 @@ import AddPreNomina from "./AddNomina";
 
 export default function Registro() {
   const { setLoader } = useContext(sesion);
-
-  const [pagosTotal, setPagosTotal] = useState(0);
-
   let tableStyle = "border-b-2 text-center drop-shadow-xl p-5";
 
   const preNomina = useQuery("preNomina", () =>
